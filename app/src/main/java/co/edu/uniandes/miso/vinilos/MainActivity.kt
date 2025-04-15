@@ -7,7 +7,10 @@ import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.edu.uniandes.miso.vinilos.databinding.ActivityMainBinding
+import co.edu.uniandes.miso.vinilos.view.DrawerItem
+import co.edu.uniandes.miso.vinilos.view.adapters.DrawerAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +30,17 @@ class MainActivity : AppCompatActivity() {
         val allTopLevelIds = getAllDestinationIds(navController.graph)
         appBarConfig = AppBarConfiguration(allTopLevelIds, binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appBarConfig)
-        binding.navigationView.setupWithNavController(navController)
+
+        // Setup RecyclerView with binding
+        binding.drawerRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.drawerRecyclerView.adapter = DrawerAdapter(getDrawerItems()) { destinationId ->
+            navController.navigate(destinationId)
+            binding.drawerLayout.closeDrawers()
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.title = destination.label
+        }
     }
 
     private fun getAllDestinationIds(graph: NavGraph): Set<Int> {
@@ -40,5 +53,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return ids
+    }
+
+    private fun getDrawerItems(): List<DrawerItem> {
+        return listOf(
+            DrawerItem.MenuItem(
+                R.id.albumsListFragment,
+                R.drawable.ic_launcher_background,
+                getString(R.string.albums_menu_title)
+            ),
+            DrawerItem.Divider,
+            DrawerItem.MenuItem(
+                R.id.collectorsListFragment,
+                R.drawable.ic_launcher_background,
+                getString(R.string.collectors_menu_title)
+            ),
+            DrawerItem.Divider,
+            DrawerItem.MenuItem(
+                R.id.artistsListFragment,
+                R.drawable.ic_launcher_background,
+                getString(R.string.artists_menu_title)
+            )
+        )
     }
 }

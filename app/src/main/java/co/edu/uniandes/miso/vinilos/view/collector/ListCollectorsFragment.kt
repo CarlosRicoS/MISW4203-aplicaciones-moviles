@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import co.edu.uniandes.miso.vinilos.databinding.FragmentSettingsBinding
+import co.edu.uniandes.miso.vinilos.databinding.FragmentListCollectorsBinding
 
-class SettingsFragment : Fragment() {
-
-    private lateinit var binding: FragmentSettingsBinding
+class ListCollectorsFragment : Fragment() {
+    private lateinit var binding: FragmentListCollectorsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding = FragmentListCollectorsBinding.inflate(inflater, container, false)
         return binding.root
     }
 }
