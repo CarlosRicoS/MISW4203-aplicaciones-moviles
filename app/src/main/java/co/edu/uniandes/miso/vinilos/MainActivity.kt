@@ -1,6 +1,8 @@
 package co.edu.uniandes.miso.vinilos
 
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavGraph
@@ -34,12 +36,35 @@ class MainActivity : AppCompatActivity() {
         // Setup RecyclerView with binding
         binding.drawerRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.drawerRecyclerView.adapter = DrawerAdapter(getDrawerItems()) { destinationId ->
-            navController.navigate(destinationId)
-            binding.drawerLayout.closeDrawers()
+            binding.drawerLayout.postDelayed({
+                binding.drawerLayout.closeDrawers()
+                val navController = (supportFragmentManager
+                    .findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+                navController.navigate(destinationId)
+            }, 150)
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.title = destination.label
+        }
+
+        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                // Hide keyboard
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.searchInput.windowToken, 0)
+
+                // Clear focus
+                binding.searchInput.clearFocus()
+
+                // Perform the search here
+                // val query = binding.searchInput.text?.toString().orEmpty()
+                // TODO: trigger your filter logic with 'query'
+
+                true
+            } else {
+                false
+            }
         }
     }
 
@@ -59,21 +84,23 @@ class MainActivity : AppCompatActivity() {
         return listOf(
             DrawerItem.MenuItem(
                 R.id.albumsListFragment,
-                R.drawable.ic_launcher_background,
+                R.drawable.music_note_24dp,
                 getString(R.string.albums_menu_title)
             ),
             DrawerItem.Divider,
             DrawerItem.MenuItem(
                 R.id.collectorsListFragment,
-                R.drawable.ic_launcher_background,
+                R.drawable.person_24dp,
                 getString(R.string.collectors_menu_title)
             ),
             DrawerItem.Divider,
             DrawerItem.MenuItem(
                 R.id.artistsListFragment,
-                R.drawable.ic_launcher_background,
+                R.drawable.artist_24dp,
                 getString(R.string.artists_menu_title)
             )
         )
     }
+
+
 }
