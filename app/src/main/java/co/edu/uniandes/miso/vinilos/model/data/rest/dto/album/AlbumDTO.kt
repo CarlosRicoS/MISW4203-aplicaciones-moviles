@@ -1,4 +1,4 @@
-package co.edu.uniandes.miso.vinilos.model.data.rest.dto.Album
+package co.edu.uniandes.miso.vinilos.model.data.rest.dto.album
 
 data class AlbumDTO(
     val id: Int,
