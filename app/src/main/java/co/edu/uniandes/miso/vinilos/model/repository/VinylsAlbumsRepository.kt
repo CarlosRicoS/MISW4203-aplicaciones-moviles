@@ -1,6 +1,6 @@
 package co.edu.uniandes.miso.vinilos.model.repository
 
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.Album.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsApiService
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsServiceAdapter
 
