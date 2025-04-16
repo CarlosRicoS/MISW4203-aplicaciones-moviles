@@ -55,7 +55,7 @@
                     android:id="@+id/album_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{album.description}"
+                    android:text="@{album.performers[0].name}"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
             </LinearLayout>
