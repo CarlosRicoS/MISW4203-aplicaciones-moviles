@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/search_24dp"
+        android:title=""
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        app:iconTint="@color/black"/>
+</menu>

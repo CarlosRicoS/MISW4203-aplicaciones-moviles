@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MISW4203Grupo14</string>
+    <string name="albums_menu_title">Albumes</string>
+    <string name="collectors_menu_title">Coleccionistas</string>
+    <string name="artists_menu_title">Artistas</string>
+    <string name="toolbar_search_text">Buscar</string>
 </resources>
