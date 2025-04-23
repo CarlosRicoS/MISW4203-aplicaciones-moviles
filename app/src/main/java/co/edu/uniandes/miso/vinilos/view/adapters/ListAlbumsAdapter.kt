@@ -10,14 +10,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.ListAlbumItemBinding
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.domain.Album
 import com.bumptech.glide.Glide
 import java.io.File
 import androidx.core.net.toUri
 
 class ListAlbumsAdapter : RecyclerView.Adapter<ListAlbumsAdapter.ListAlbumsViewHolder>() {
 
-    var albums: List<AlbumDTO> = emptyList()
+    var albums: List<Album> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
