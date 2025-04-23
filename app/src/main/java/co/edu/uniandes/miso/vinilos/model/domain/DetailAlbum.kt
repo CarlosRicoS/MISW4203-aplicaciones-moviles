@@ -1,6 +1,6 @@
 package co.edu.uniandes.miso.vinilos.model.domain
 
-data class Album(
+data class DetailAlbum(
     val id: Int,
     val name: String,
     val cover: String,
@@ -8,5 +8,4 @@ data class Album(
     val description: String,
     val genre: String,
     val recordLabel: String,
-    val performer: String
 )
