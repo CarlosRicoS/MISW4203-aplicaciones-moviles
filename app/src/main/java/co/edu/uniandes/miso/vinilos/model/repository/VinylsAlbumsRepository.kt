@@ -4,13 +4,17 @@ import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsApiServ
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsServiceAdapter
 import co.edu.uniandes.miso.vinilos.model.domain.Album
 import co.edu.uniandes.miso.vinilos.model.mapper.AlbumMapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class VinylsAlbumsRepository {
     
     private val vinylsApiService: VinylsApiService = VinylsServiceAdapter.instance.vinylsService
     
     suspend fun getVinylsAlbums(): List<Album> {
-        val albumDTOs = vinylsApiService.getAlbums()
-        return AlbumMapper.fromDtoList(albumDTOs)
+        return withContext(Dispatchers.IO) {
+            val albumDTOs = vinylsApiService.getAlbums()
+            AlbumMapper.fromDtoList(albumDTOs)
+        }
     }
 }
