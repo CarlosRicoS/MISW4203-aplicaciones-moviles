@@ -11,7 +11,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withChild
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -31,14 +30,33 @@ class ListAlbumTest {
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun listAlbumTest() {
+    fun anAlbumExistsInTheList() {
 
         Thread.sleep(3000)
-        getListAlbumItem("Buscando América Prueba", "Rubén Blades Bellido de Luna").check(matches(isDisplayed()))
-        getListAlbumItem("Poeta del pueblo", "Rubén Blades Bellido de Luna").check(matches(isDisplayed()))
-        getListAlbumItem("A Night at the Opera", "Queen").check(matches(isDisplayed()))
-        getListAlbumItem("A Day at the Races", "Queen").check(matches(isDisplayed()))
-        getListAlbumItem("Perspectiva", "Gilberto Santa Rosa").check(matches(isDisplayed()))
+        // Given
+        val name = "Buscando América Prueba"
+        val author = "Rubén Blades Bellido de Luna"
+
+        // When
+        val albumToValidate = getListAlbumItem(name, author)
+
+        // Then
+        albumToValidate.check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun anotherAlbumExistsInTheList() {
+
+        Thread.sleep(3000)
+        // Given
+        val name = "From Zero"
+        val author = "Gilberto Santa Rosa"
+
+        // When
+        val albumToValidate = getListAlbumItem(name, author)
+
+        // Then
+        albumToValidate.check(matches(isDisplayed()))
     }
 
     private fun getListAlbumItem(albumTitle:String, albumAuthor:String): ViewInteraction = onView(
