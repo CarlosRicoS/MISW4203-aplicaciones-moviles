@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide
 import java.io.File
 import androidx.core.net.toUri
 
-class ListAlbumsAdapter : RecyclerView.Adapter<ListAlbumsAdapter.ListAlbumsViewHolder>() {
+class ListAlbumsAdapter(
+    private val onAlbumClick: (Int, String, String) -> Unit
+) : RecyclerView.Adapter<ListAlbumsAdapter.ListAlbumsViewHolder>() {
 
     var albums: List<SimplifiedAlbum> = emptyList()
         set(value) {
@@ -37,9 +39,8 @@ class ListAlbumsAdapter : RecyclerView.Adapter<ListAlbumsAdapter.ListAlbumsViewH
         holder.viewDataBinding.also {
             it.album = albums[position]
         }
-
-        // TODO: Add code to handle click events
         holder.viewDataBinding.root.setOnClickListener {
+            onAlbumClick(albums[position].id, albums[position].name, albums[position].cover)
         }
     }
 
