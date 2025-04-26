@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class VinylsServiceAdapter {
-//    TODO: Change this URL when backend is deployed in the cloud
+    //    TODO: Change this URL when backend is deployed in the cloud
     private val baseUrl = "https://backvynils-q6yc.onrender.com/"
 
     private val retrofitClient: Retrofit = Retrofit.Builder()

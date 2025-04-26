@@ -1,30 +1,25 @@
 package co.edu.uniandes.miso.vinilos.view.album
 
 import android.content.Context
-import android.net.Uri
 import android.os.Build
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import java.time.LocalDate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import co.edu.uniandes.miso.vinilos.R
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.Comment
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.Performer
+import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
+import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
+import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,9 +33,9 @@ class AlbumDetailFragment : Fragment() {
     private val viewModel: AlbumDetailViewModel by viewModels()
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
-    private lateinit var album: AlbumDTO
-    private lateinit var performers: List<Performer>
-    private lateinit var comments: List<Comment>
+    private lateinit var album: DetailAlbum
+    private lateinit var performers: List<SimplifiedPerformer>
+    private lateinit var comments: List<DetailComment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,26 +51,20 @@ class AlbumDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        tabLayout = view.findViewById(R.id.albumDetailTabs)
+        viewPager = view.findViewById(R.id.albumDetailPager)
+        
         observeData()
         val albumId = arguments?.getInt("albumId") ?: -1
         loadData(albumId)
-        val tabTitles = listOf(
-            getString(R.string.album_detail_general_tab).uppercase(),
-            getString(R.string.album_detail_performers_tab).uppercase(),
-            getString(R.string.album_detail_comments_tab).uppercase()
-        )
-        tabLayout = view.findViewById(R.id.albumDetailTabs)
-        viewPager = view.findViewById(R.id.albumDetailPager)
-        viewPager.adapter = AlbumDetailPagerAdapter(requireContext(), albumId)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitles[position]
-        }.attach()
     }
 
     private fun observeData() {
         viewModel.album.observe(viewLifecycleOwner) { album ->
             this.album = album
             (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
+            setupViewPager()
         }
         viewModel.performers.observe(viewLifecycleOwner) { performers ->
             this.performers = performers
@@ -83,6 +72,25 @@ class AlbumDetailFragment : Fragment() {
         viewModel.comments.observe(viewLifecycleOwner) { comments ->
             this.comments = comments
         }
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    
+    private fun setupViewPager() {
+        val tabTitles = listOf(
+            getString(R.string.album_detail_general_tab).uppercase(),
+            getString(R.string.album_detail_performers_tab).uppercase(),
+            getString(R.string.album_detail_comments_tab).uppercase()
+        )
+        
+        val albumId = arguments?.getInt("albumId") ?: -1
+        viewPager.adapter = AlbumDetailPagerAdapter(requireContext(), albumId)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -122,6 +130,10 @@ class AlbumDetailFragment : Fragment() {
         override fun getItemViewType(position: Int) = position
         
         private fun fillGeneralTabData(holder: PagerViewHolder) {
+            if (!::album.isInitialized) {
+                return
+            }
+            
             holder.itemView.findViewById<TextView>(R.id.año).text = album.releaseDate
             holder.itemView.findViewById<TextView>(R.id.titulo).text = album.name
             holder.itemView.findViewById<TextView>(R.id.descripcion).text = album.description
@@ -130,10 +142,13 @@ class AlbumDetailFragment : Fragment() {
             Glide.with(holder.itemView)
                 .load(album.cover)
                 .into(holder.itemView.findViewById(R.id.album_cover))
-
         }
 
         private fun fillPerformersTabData(holder: PagerViewHolder) {
+            if (!::performers.isInitialized || performers.isEmpty()) {
+                return
+            }
+            
             val performer = getPerformerAtIndex(0)
             Glide.with(holder.itemView)
                 .load(performer.image)
@@ -142,11 +157,15 @@ class AlbumDetailFragment : Fragment() {
             holder.itemView.findViewById<TextView>(R.id.description).text = performer.description
         }
 
-        private fun getPerformerAtIndex(perfomerIndex: Int): Performer {
+        private fun getPerformerAtIndex(perfomerIndex: Int): SimplifiedPerformer {
             return performers[perfomerIndex]
         }
 
         private fun fillCommentsTabData(holder: PagerViewHolder) {
+            if (!::comments.isInitialized) {
+                return
+            }
+            
             val recyclerView = holder.itemView.findViewById<RecyclerView>(R.id.commentsRecyclerView)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = CommentAdapter(comments)
@@ -155,7 +174,7 @@ class AlbumDetailFragment : Fragment() {
 
     class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    inner class CommentAdapter(private val comments: List<Comment>) :
+    inner class CommentAdapter(private val comments: List<DetailComment>) :
         RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -168,7 +187,7 @@ class AlbumDetailFragment : Fragment() {
             val comment = comments[position]
             holder.rating.text = comment.rating.toString()
             holder.description.text = comment.description
-            holder.collectorName.text = comment.id.toString()
+            holder.collectorName.text = comment.collector
         }
 
         override fun getItemCount(): Int = comments.size

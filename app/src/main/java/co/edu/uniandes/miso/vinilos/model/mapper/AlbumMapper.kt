@@ -1,8 +1,13 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
+import android.os.Build
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 /**
  * Mapper class to convert between AlbumDTO and Album domain models
@@ -31,7 +36,22 @@ class AlbumMapper {
                 id = albumDTO.id,
                 name = albumDTO.name,
                 cover = albumDTO.cover,
-                releaseDate = albumDTO.releaseDate,
+                releaseDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        // Try parsing as OffsetDateTime first (ISO 8601 with time and timezone)
+                        val date = OffsetDateTime.parse(albumDTO.releaseDate)
+                        date.year.toString()
+                    } catch (e: DateTimeParseException) {
+                        try {
+                            // Fallback to LocalDate if only date portion is provided
+                            val date = LocalDate.parse(albumDTO.releaseDate)
+                            date.year.toString()
+                        } catch (e: DateTimeParseException) {
+                            // Just return the original string if all parsing fails
+                            albumDTO.releaseDate
+                        }
+                    }
+                } else albumDTO.releaseDate,
                 description = albumDTO.description,
                 genre = albumDTO.genre,
                 recordLabel = albumDTO.recordLabel,
