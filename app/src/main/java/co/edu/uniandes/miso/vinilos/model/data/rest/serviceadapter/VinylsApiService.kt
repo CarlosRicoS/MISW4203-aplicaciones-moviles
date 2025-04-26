@@ -6,4 +6,7 @@ import retrofit2.http.GET
 interface VinylsApiService {
     @GET("albums")
     suspend fun getAlbums(): List<AlbumDTO>
+
+    @GET("albums/{id}")
+    suspend fun getAlbumById(id: Int): AlbumDTO
 }
