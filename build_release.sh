@@ -34,7 +34,6 @@ keyPassword=$KEY_PASS
 EOF
 
 # === Compilar Wrapper ===
-gradle build
 gradle wrapper
 
 # === GENERAR APK DE RELEASE ===
