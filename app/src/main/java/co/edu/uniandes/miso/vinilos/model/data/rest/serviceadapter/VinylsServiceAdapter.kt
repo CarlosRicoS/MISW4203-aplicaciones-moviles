@@ -3,10 +3,11 @@ package co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import co.edu.uniandes.miso.vinilos.BuildConfig
 
 class VinylsServiceAdapter {
-    //    TODO: Change this URL when backend is deployed in the cloud
-    private val baseUrl = "https://backvynils-q6yc.onrender.com/"
+
+    private val baseUrl = BuildConfig.API_HOST
 
     private val retrofitClient: Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
