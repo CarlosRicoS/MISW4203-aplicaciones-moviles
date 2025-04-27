@@ -25,6 +25,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class ListAlbumTest {
 
+    private val timeToWait = 1000L
+
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
@@ -32,9 +34,9 @@ class ListAlbumTest {
     @Test
     fun anAlbumExistsInTheList() {
 
-        Thread.sleep(3000)
+        Thread.sleep(timeToWait)
         // Given
-        val name = "Buscando América Prueba"
+        val name = "Buscando América"
         val author = "Rubén Blades Bellido de Luna"
 
         // When
@@ -47,10 +49,10 @@ class ListAlbumTest {
     @Test
     fun anotherAlbumExistsInTheList() {
 
-        Thread.sleep(3000)
+        Thread.sleep(timeToWait)
         // Given
-        val name = "From Zero"
-        val author = "Gilberto Santa Rosa"
+        val name = "A Night at the Opera"
+        val author = "Queen"
 
         // When
         val albumToValidate = getListAlbumItem(name, author)
