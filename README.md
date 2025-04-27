@@ -2,9 +2,9 @@
 
 ## Construcción de la APK
 
-### Ajustar variables de entorno
+### Descripción de variables de entorno
 
-El primer paso consiste en ajustar las variables de entorno.
+Tenga en cuenta las siguientes variables de entorno para ajustar el comando que realizará el build de la APK.
 
 | Nombre Variable | Función |
 | --- | --- |
@@ -15,30 +15,36 @@ El primer paso consiste en ajustar las variables de entorno.
 | APK_OUTPUT_NAME | Nombre resultante del archivo .APK |
 | API_HOST | Dirección URL dónde se conectará con el proyecto BackVynils (Ej: <http://localhost:8080/>)|
 
-Si se desea sobreescrbir alguno de estos valores se debe realizar por medio del siguiente comando.
-
-``` Shell
-export VARIABLE=VALOR
-```
-
 ### Ejecutar script de release
 
 Antes de iniciar con el proceso de construcción del release, se debe validar:
 
-1. Validar que el Android SDK se encuentre instalado.
-2. Validar que el archivo **build_release.sh** tenga permisos de ejecución.
+1. Validar que Docker se encuentre instalado y en ejecución.
+2. Ubicarse en la raíz del proyecto y ejecutar uno de los siguientes comandos dependiendo del sistema operativo.
 
-Posteriormente, desde la raíz del proyecto se debe ejecutar el siguiente comando.
+Linux
 
 ``` Shell
-./build_release.sh
+docker run --name android-build --rm -v $(pwd):/app -e VARIABLE_NAME=value ghcr.io/carlosricos/misw4203-aplicaciones-moviles/android-build:latest
+```
+
+Windows Powershell
+
+``` Powershell
+docker run --name android-build --rm -v "$($pwd.Path):/app"  -e VARIABLE_NAME=value ghcr.io/carlosricos/misw4203-aplicaciones-moviles/android-build:latest
+```
+
+Si se desea editar los parámetros de configuración, se deben agregar como variables de entorno a la ejecución del contenedor por medio del flag *-e*, por ejemplo:
+
+``` Shell
+    -e VARIABLE_NAME=value
 ```
 
 Cuando se termine de ejecutar el proceso, se generará en la raíz del proyecto, el archivo *.APK* para instalar en el dispositivo.
 
 ## Instalación de la APK
 
-Una vez conectado el dispositivo Android configurado para la instalación y depuración de la APK, se procede a ejecutar el siguiente ocmando para verificar que el dispositivo sea visible.
+Una vez conectado el dispositivo Android configurado para la instalación y depuración de la APK, se procede a ejecutar el siguiente comando para verificar que el dispositivo sea visible.
 
 ``` Shell
 adb devices

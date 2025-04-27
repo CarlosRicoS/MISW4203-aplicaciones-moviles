@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # === CONFIGURACIÓN (Con valores por defecto y posibilidad de sobrescribir con variables de entorno) ===
 KEY_ALIAS="${KEY_ALIAS:-my-key-alias}"
@@ -33,10 +33,13 @@ keyAlias=$KEY_ALIAS
 keyPassword=$KEY_PASS
 EOF
 
+# === Compilar Wrapper ===
+gradle wrapper
+
 # === GENERAR APK DE RELEASE ===
 echo "Iniciando build..."
 export API_HOST="${API_HOST:-https://backvynils-q6yc.onrender.com/}"
-./gradlew clean assembleRelease --refresh-dependencies
+./gradlew assembleRelease --refresh-dependencies
 
 # === COPIAR APK A RAÍZ DEL PROYECTO ===
 APK_PATH="app/build/outputs/apk/release/app-release.apk"
