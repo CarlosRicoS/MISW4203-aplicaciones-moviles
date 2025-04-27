@@ -8,7 +8,7 @@ val keystoreProperties = if (keystorePropertiesFile.exists()) {
     null
 }
 
-val apiHost: String = System.getenv("API_HOST") ?: "https://backvynils-q6yc.onrender.com/"
+val apiHost: String = System.getenv("API_HOST") ?: "http://35.170.246.148:3000/"
 
 plugins {
     alias(libs.plugins.android.application)

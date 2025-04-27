@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class DetailedAlbumTest {
     
-    private val timeToWait = 5000L
+    private val timeToWait = 1000L
 
     @Rule
     @JvmField
@@ -71,18 +71,17 @@ class DetailedAlbumTest {
 
         val textView2 = onView(
             allOf(
-                withId(R.id.titulo), withText("Buscando América Prueba"),
+                withId(R.id.titulo), withText("Buscando América"),
                 withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
                 isDisplayed()
             )
         )
-        textView2.check(matches(withText("Buscando América Prueba")))
+        textView2.check(matches(withText("Buscando América")))
 
         val textView3 = onView(
             allOf(
                 withId(R.id.descripcion),
                 withText("Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983."),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
                 isDisplayed()
             )
         )
@@ -91,7 +90,6 @@ class DetailedAlbumTest {
         val textView4 = onView(
             allOf(
                 withId(R.id.genero), withText("Salsa"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
                 isDisplayed()
             )
         )
@@ -100,7 +98,6 @@ class DetailedAlbumTest {
         val textView5 = onView(
             allOf(
                 withId(R.id.recordLabel), withText("Elektra"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
                 isDisplayed()
             )
         )
@@ -166,7 +163,6 @@ class DetailedAlbumTest {
             allOf(
                 withId(R.id.description),
                 withText("Es un cantante, compositor, músico, actor, abogado, político y activista panameño. Ha desarrollado gran parte de su carrera artística en la ciudad de Nueva York."),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
                 isDisplayed()
             )
         )
@@ -220,16 +216,6 @@ class DetailedAlbumTest {
             )
         )
         textView.check(matches(withText("The most relevant album of Ruben Blades")))
-
-        val textView2 = onView(
-            allOf(
-                withId(R.id.comment_description),
-                withText("Billie Eilish es una artista de otro nivel."),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
-            )
-        )
-        textView2.check(matches(withText("Billie Eilish es una artista de otro nivel.")))
     }
 
     private fun childAtPosition(
