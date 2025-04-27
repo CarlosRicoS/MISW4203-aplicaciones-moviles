@@ -1,22 +1,20 @@
 package co.edu.uniandes.miso.vinilos.view.album
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListAlbumsBinding
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.*
 import co.edu.uniandes.miso.vinilos.view.adapters.ListAlbumsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.ListAlbumsViewModel
-import kotlinx.coroutines.launch
-import kotlin.getValue
 
 class ListAlbumsFragment : Fragment() {
 
@@ -31,7 +29,15 @@ class ListAlbumsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListAlbumsBinding.inflate(inflater, container, false)
-        viewModelAdapter = ListAlbumsAdapter()
+        viewModelAdapter = ListAlbumsAdapter(){ albumId, albumName, albumCover ->
+
+            val bundle = Bundle().apply {
+                putInt("albumId", albumId)
+                putString("albumName", albumName)
+                putString("albumCover", albumCover)
+            }
+            findNavController().navigate(R.id.albumDetailFragment, bundle)
+        }
         return binding.root
     }
 
@@ -40,28 +46,23 @@ class ListAlbumsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = viewModelAdapter
 
-        lifecycleScope.launch {
-            viewModel.loadAlbums()
-            viewModelAdapter?.albums = viewModel.getAlbums()
-            binding.progressBar.visibility = View.GONE
+        viewModel.albums.observe(viewLifecycleOwner) { albums ->
+            viewModelAdapter?.albums = albums
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+            errorMsg?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.loadAlbums()
     }
 
-    //    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        val activity = requireNotNull(this.activity) {
-//            "You can only access the viewModel after onActivityCreated()"
-//        }
-//
-//        //activity.actionBar?.title = getString(R.string.title_albums)
-//        //viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application)).get(AlbumViewModel::class.java)
-//        //viewModel.albums.observe(viewLifecycleOwner, Observer<List<AlbumDTO>> {
-//        //    it.apply {
-//        //        viewModelAdapter!!.albums = this
-//        //    }
-//        //})
-//    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

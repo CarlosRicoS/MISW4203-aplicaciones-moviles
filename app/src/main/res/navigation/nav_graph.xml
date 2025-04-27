@@ -9,7 +9,18 @@
         android:id="@+id/albumsListFragment"
         android:name="co.edu.uniandes.miso.vinilos.view.album.ListAlbumsFragment"
         android:label="@string/albums_menu_title"
-        tools:layout="@layout/fragment_list_albums"/>
+        tools:layout="@layout/fragment_list_albums">
+        <action
+            android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumDetailFragment"
+            android:id="@+id/action_listAlbum_to_detailAlbum"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumDetailFragment"
+        android:label="Album Name"
+        tools:layout="@layout/fragment_album_detail">
+    </fragment>
     <fragment
         android:id="@+id/collectorsListFragment"
         android:name="co.edu.uniandes.miso.vinilos.view.collector.ListCollectorsFragment"
