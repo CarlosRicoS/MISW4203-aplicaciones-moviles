@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -33,8 +32,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val allTopLevelIds = getAllDestinationIds(navController.graph)
-        appBarConfig = AppBarConfiguration(allTopLevelIds, binding.drawerLayout)
+        val topLevelDestinations = setOf(
+            R.id.albumsListFragment,
+            R.id.collectorsListFragment,
+            R.id.artistsListFragment
+        )
+        appBarConfig = AppBarConfiguration(topLevelDestinations, binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appBarConfig)
 
         // Setup RecyclerView with binding
@@ -80,18 +83,6 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun getAllDestinationIds(graph: NavGraph): Set<Int> {
-        val ids = mutableSetOf<Int>()
-        for (node in graph) {
-            if (node is NavGraph) {
-                ids.addAll(getAllDestinationIds(node))
-            } else {
-                ids.add(node.id)
-            }
-        }
-        return ids
     }
 
     private fun getDrawerItems(): List<DrawerItem> {
