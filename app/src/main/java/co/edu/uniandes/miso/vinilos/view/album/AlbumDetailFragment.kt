@@ -2,24 +2,25 @@ package co.edu.uniandes.miso.vinilos.view.album
 
 import android.content.Context
 import android.os.Build
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
+import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -36,6 +37,7 @@ class AlbumDetailFragment : Fragment() {
     private lateinit var album: DetailAlbum
     private lateinit var performers: List<SimplifiedPerformer>
     private lateinit var comments: List<DetailComment>
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +53,13 @@ class AlbumDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
+        progressBar = view.findViewById<ProgressBar>(R.id.albumDetailProgressBar)!!
+        progressBar.visibility = View.VISIBLE
+
         tabLayout = view.findViewById(R.id.albumDetailTabs)
         viewPager = view.findViewById(R.id.albumDetailPager)
-        
+
         observeData()
         val albumId = arguments?.getInt("albumId") ?: -1
         loadData(albumId)
@@ -65,6 +70,7 @@ class AlbumDetailFragment : Fragment() {
             this.album = album
             (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
             setupViewPager()
+            progressBar.visibility = View.GONE
         }
         viewModel.performers.observe(viewLifecycleOwner) { performers ->
             this.performers = performers
@@ -78,14 +84,14 @@ class AlbumDetailFragment : Fragment() {
             }
         }
     }
-    
+
     private fun setupViewPager() {
         val tabTitles = listOf(
             getString(R.string.album_detail_general_tab).uppercase(),
             getString(R.string.album_detail_performers_tab).uppercase(),
             getString(R.string.album_detail_comments_tab).uppercase()
         )
-        
+
         val albumId = arguments?.getInt("albumId") ?: -1
         viewPager.adapter = AlbumDetailPagerAdapter(requireContext(), albumId)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -126,14 +132,14 @@ class AlbumDetailFragment : Fragment() {
                 else -> throw IllegalArgumentException()
             }
         }
-        
+
         override fun getItemViewType(position: Int) = position
-        
+
         private fun fillGeneralTabData(holder: PagerViewHolder) {
             if (!::album.isInitialized) {
                 return
             }
-            
+
             holder.itemView.findViewById<TextView>(R.id.año).text = album.releaseDate
             holder.itemView.findViewById<TextView>(R.id.titulo).text = album.name
             holder.itemView.findViewById<TextView>(R.id.descripcion).text = album.description
@@ -148,7 +154,7 @@ class AlbumDetailFragment : Fragment() {
             if (!::performers.isInitialized || performers.isEmpty()) {
                 return
             }
-            
+
             val performer = getPerformerAtIndex(0)
             Glide.with(holder.itemView)
                 .load(performer.image)
@@ -165,7 +171,7 @@ class AlbumDetailFragment : Fragment() {
             if (!::comments.isInitialized) {
                 return
             }
-            
+
             val recyclerView = holder.itemView.findViewById<RecyclerView>(R.id.commentsRecyclerView)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = CommentAdapter(comments)
