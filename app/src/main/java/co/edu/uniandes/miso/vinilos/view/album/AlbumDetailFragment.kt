@@ -2,27 +2,31 @@ package co.edu.uniandes.miso.vinilos.view.album
 
 import android.content.Context
 import android.os.Build
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
+import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AlbumDetailFragment : Fragment() {
 
@@ -36,6 +40,7 @@ class AlbumDetailFragment : Fragment() {
     private lateinit var album: DetailAlbum
     private lateinit var performers: List<SimplifiedPerformer>
     private lateinit var comments: List<DetailComment>
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +56,10 @@ class AlbumDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
+        progressBar = view.findViewById<ProgressBar>(R.id.albumDetailProgressBar)!!
+        progressBar.visibility = View.VISIBLE
+
         tabLayout = view.findViewById(R.id.albumDetailTabs)
         viewPager = view.findViewById(R.id.albumDetailPager)
         
@@ -62,9 +70,13 @@ class AlbumDetailFragment : Fragment() {
 
     private fun observeData() {
         viewModel.album.observe(viewLifecycleOwner) { album ->
-            this.album = album
-            (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
-            setupViewPager()
+            lifecycleScope.launch {
+                delay(2000)
+                this@AlbumDetailFragment.album = album
+                (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
+                setupViewPager()
+                progressBar.visibility = View.GONE
+            }
         }
         viewModel.performers.observe(viewLifecycleOwner) { performers ->
             this.performers = performers

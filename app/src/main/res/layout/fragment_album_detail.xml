@@ -27,6 +27,14 @@
             android:text="@string/album_detail_comments_tab" />
     </com.google.android.material.tabs.TabLayout>
 
+    <ProgressBar
+        android:id="@+id/albumDetailProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/albumDetailPager"
         android:layout_width="match_parent"
