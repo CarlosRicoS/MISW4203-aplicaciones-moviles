@@ -21,6 +21,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfig: AppBarConfiguration
     private var isSearchVisible = false
+    private var currentMenu: Menu? = null
+    private var topLevelDestinations = setOf(
+        R.id.albumsListFragment,
+        R.id.collectorsListFragment,
+        R.id.artistsListFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +38,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val topLevelDestinations = setOf(
-            R.id.albumsListFragment,
-            R.id.collectorsListFragment,
-            R.id.artistsListFragment
-        )
         appBarConfig = AppBarConfiguration(topLevelDestinations, binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appBarConfig)
 
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             if (isSearchVisible) {
                 toggleSearchBar()
             }
+            currentMenu?.findItem(R.id.action_filter)?.isVisible = destination.id in topLevelDestinations
         }
 
         binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
@@ -72,6 +74,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        currentMenu = menu
+        val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+        val currentDestination = navController.currentDestination
+        menu.findItem(R.id.action_filter)?.isVisible = currentDestination?.id in topLevelDestinations
         return true
     }
 
