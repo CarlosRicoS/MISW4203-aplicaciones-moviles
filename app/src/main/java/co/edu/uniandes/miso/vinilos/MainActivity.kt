@@ -40,11 +40,6 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         setupDrawer()
         setupSearchInput()
-
-        binding.searchInputLayout.apply {
-            visibility = View.GONE
-            alpha = 0f
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -92,6 +87,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearchInput() {
+        binding.searchInputLayout.apply {
+            visibility = View.GONE
+            alpha = 0f
+        }
         binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
             clearSearchTextBox(actionId)
         }
