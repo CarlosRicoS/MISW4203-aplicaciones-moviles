@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -19,10 +20,11 @@ import co.edu.uniandes.miso.vinilos.view.adapters.DrawerAdapter
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfig: AppBarConfiguration
-    private var isSearchVisible = false
+    private lateinit var navController: NavController
+    private var isSearchInputVisible = false
     private var currentMenu: Menu? = null
-    private var topLevelDestinations = setOf(
+
+    private val topLevelDestinations = setOf(
         R.id.albumsListFragment,
         R.id.collectorsListFragment,
         R.id.artistsListFragment
@@ -35,36 +37,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfig = AppBarConfiguration(topLevelDestinations, binding.drawerLayout)
-        binding.toolbar.setupWithNavController(navController, appBarConfig)
-
-        // Setup RecyclerView with binding
-        binding.drawerRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.drawerRecyclerView.adapter = DrawerAdapter(getDrawerItems()) { destinationId ->
-            binding.drawerLayout.postDelayed({
-                binding.drawerLayout.closeDrawers()
-                val navController = (supportFragmentManager
-                    .findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-                navController.navigate(destinationId)
-            }, 150)
-        }
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.title = destination.label
-            binding.searchInput.setText("")
-            clearSearchTextBox(EditorInfo.IME_ACTION_DONE)
-            if (isSearchVisible) {
-                toggleSearchBar()
-            }
-            currentMenu?.findItem(R.id.action_filter)?.isVisible = destination.id in topLevelDestinations
-        }
-
-        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
-            clearSearchTextBox(actionId)
-        }
+        setupNavigation()
+        setupDrawer()
+        setupSearchInput()
 
         binding.searchInputLayout.apply {
             visibility = View.GONE
@@ -75,9 +50,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         currentMenu = menu
-        val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-        val currentDestination = navController.currentDestination
-        menu.findItem(R.id.action_filter)?.isVisible = currentDestination?.id in topLevelDestinations
+        updateFilterVisibility()
         return true
     }
 
@@ -91,62 +64,82 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDrawerItems(): List<DrawerItem> {
-        return listOf(
-            DrawerItem.MenuItem(
-                R.id.albumsListFragment,
-                R.drawable.music_note_24dp,
-                getString(R.string.albums_menu_title)
-            ),
-            DrawerItem.Divider,
-            DrawerItem.MenuItem(
-                R.id.collectorsListFragment,
-                R.drawable.person_24dp,
-                getString(R.string.collectors_menu_title)
-            ),
-            DrawerItem.Divider,
-            DrawerItem.MenuItem(
-                R.id.artistsListFragment,
-                R.drawable.artist_24dp,
-                getString(R.string.artists_menu_title)
-            )
-        )
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val appBarConfig = AppBarConfiguration(topLevelDestinations, binding.drawerLayout)
+        binding.toolbar.setupWithNavController(navController, appBarConfig)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.title = destination.label
+            binding.searchInput.setText("")
+            clearSearchTextBox(EditorInfo.IME_ACTION_DONE)
+            if (isSearchInputVisible) toggleSearchBar()
+            updateFilterVisibility()
+        }
     }
+
+    private fun setupDrawer() {
+        binding.drawerRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.drawerRecyclerView.adapter = DrawerAdapter(getDrawerItems()) { destinationId ->
+            binding.drawerLayout.postDelayed({
+                binding.drawerLayout.closeDrawers()
+                navController.navigate(destinationId)
+            }, 150)
+        }
+    }
+
+    private fun setupSearchInput() {
+        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
+            clearSearchTextBox(actionId)
+        }
+    }
+
+    private fun updateFilterVisibility() {
+        currentMenu?.findItem(R.id.action_filter)?.isVisible =
+            navController.currentDestination?.id in topLevelDestinations
+    }
+
+    private fun getDrawerItems(): List<DrawerItem> = listOf(
+        DrawerItem.MenuItem(
+            R.id.albumsListFragment,
+            R.drawable.music_note_24dp,
+            getString(R.string.albums_menu_title)
+        ),
+        DrawerItem.Divider,
+        DrawerItem.MenuItem(
+            R.id.collectorsListFragment,
+            R.drawable.person_24dp,
+            getString(R.string.collectors_menu_title)
+        ),
+        DrawerItem.Divider,
+        DrawerItem.MenuItem(
+            R.id.artistsListFragment,
+            R.drawable.artist_24dp,
+            getString(R.string.artists_menu_title)
+        )
+    )
 
     private fun clearSearchTextBox(actionId: Int): Boolean {
         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
-            // Hide keyboard
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.searchInput.windowToken, 0)
-
-            // Clear focus
+            hideKeyboard()
             binding.searchInput.clearFocus()
-
-            // Perform the search here
-            // val query = binding.searchInput.text?.toString().orEmpty()
-            // TODO: trigger your filter logic with 'query'
-
+            // TODO: trigger filter logic with 'query'
             return true
-        } else {
-            return false
         }
+        return false
     }
 
     private fun toggleSearchBar() {
         val searchLayout = binding.searchInputLayout
 
-        if (!isSearchVisible) {
+        if (!isSearchInputVisible) {
             searchLayout.visibility = View.VISIBLE
-            searchLayout.animate()
-                .alpha(1f)
-                .setDuration(200)
-                .withStartAction { searchLayout.visibility = View.VISIBLE }
-                .start()
-
+            searchLayout.animate().alpha(1f).setDuration(200).start()
             binding.searchInput.requestFocus()
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.searchInput, InputMethodManager.SHOW_IMPLICIT)
-
+            showKeyboard()
         } else {
             searchLayout.animate()
                 .alpha(0f)
@@ -155,12 +148,20 @@ class MainActivity : AppCompatActivity() {
                     searchLayout.visibility = View.GONE
                     binding.searchInput.setText("")
                     binding.searchInput.clearFocus()
-
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(binding.searchInput.windowToken, 0)
+                    hideKeyboard()
                 }.start()
         }
 
-        isSearchVisible = !isSearchVisible
+        isSearchInputVisible = !isSearchInputVisible
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.searchInput.windowToken, 0)
+    }
+
+    private fun showKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.searchInput, InputMethodManager.SHOW_IMPLICIT)
     }
 }
