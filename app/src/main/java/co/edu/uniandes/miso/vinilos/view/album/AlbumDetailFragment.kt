@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -25,8 +24,6 @@ import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class AlbumDetailFragment : Fragment() {
 
@@ -62,7 +59,7 @@ class AlbumDetailFragment : Fragment() {
 
         tabLayout = view.findViewById(R.id.albumDetailTabs)
         viewPager = view.findViewById(R.id.albumDetailPager)
-        
+
         observeData()
         val albumId = arguments?.getInt("albumId") ?: -1
         loadData(albumId)
@@ -70,13 +67,10 @@ class AlbumDetailFragment : Fragment() {
 
     private fun observeData() {
         viewModel.album.observe(viewLifecycleOwner) { album ->
-            lifecycleScope.launch {
-                delay(2000)
-                this@AlbumDetailFragment.album = album
-                (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
-                setupViewPager()
-                progressBar.visibility = View.GONE
-            }
+            this.album = album
+            (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
+            setupViewPager()
+            progressBar.visibility = View.GONE
         }
         viewModel.performers.observe(viewLifecycleOwner) { performers ->
             this.performers = performers
@@ -90,14 +84,14 @@ class AlbumDetailFragment : Fragment() {
             }
         }
     }
-    
+
     private fun setupViewPager() {
         val tabTitles = listOf(
             getString(R.string.album_detail_general_tab).uppercase(),
             getString(R.string.album_detail_performers_tab).uppercase(),
             getString(R.string.album_detail_comments_tab).uppercase()
         )
-        
+
         val albumId = arguments?.getInt("albumId") ?: -1
         viewPager.adapter = AlbumDetailPagerAdapter(requireContext(), albumId)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -138,14 +132,14 @@ class AlbumDetailFragment : Fragment() {
                 else -> throw IllegalArgumentException()
             }
         }
-        
+
         override fun getItemViewType(position: Int) = position
-        
+
         private fun fillGeneralTabData(holder: PagerViewHolder) {
             if (!::album.isInitialized) {
                 return
             }
-            
+
             holder.itemView.findViewById<TextView>(R.id.año).text = album.releaseDate
             holder.itemView.findViewById<TextView>(R.id.titulo).text = album.name
             holder.itemView.findViewById<TextView>(R.id.descripcion).text = album.description
@@ -160,7 +154,7 @@ class AlbumDetailFragment : Fragment() {
             if (!::performers.isInitialized || performers.isEmpty()) {
                 return
             }
-            
+
             val performer = getPerformerAtIndex(0)
             Glide.with(holder.itemView)
                 .load(performer.image)
@@ -177,7 +171,7 @@ class AlbumDetailFragment : Fragment() {
             if (!::comments.isInitialized) {
                 return
             }
-            
+
             val recyclerView = holder.itemView.findViewById<RecyclerView>(R.id.commentsRecyclerView)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = CommentAdapter(comments)
