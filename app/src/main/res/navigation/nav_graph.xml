@@ -27,8 +27,8 @@
         android:label="@string/collectors_menu_title"
         tools:layout="@layout/fragment_list_collectors"/>
     <fragment
-        android:id="@+id/artistsListFragment"
-        android:name="co.edu.uniandes.miso.vinilos.view.artist.ListArtistsFragment"
-        android:label="@string/artists_menu_title"
-        tools:layout="@layout/fragment_list_artists"/>
+        android:id="@+id/performerListFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.performer.ListPerformersFragment"
+        android:label="@string/performer_menu_title"
+        tools:layout="@layout/fragment_list_performers"/>
 </navigation>
