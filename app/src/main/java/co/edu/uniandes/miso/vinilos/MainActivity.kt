@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val topLevelDestinations = setOf(
         R.id.albumsListFragment,
         R.id.collectorsListFragment,
-        R.id.artistsListFragment
+        R.id.performerListFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,9 +115,9 @@ class MainActivity : AppCompatActivity() {
         ),
         DrawerItem.Divider,
         DrawerItem.MenuItem(
-            R.id.artistsListFragment,
+            R.id.performerListFragment,
             R.drawable.artist_24dp,
-            getString(R.string.artists_menu_title)
+            getString(R.string.performer_menu_title)
         )
     )
 

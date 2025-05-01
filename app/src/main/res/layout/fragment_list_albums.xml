@@ -6,7 +6,7 @@
     tools:context=".view.album.ListAlbumsFragment">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/albumListProgressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

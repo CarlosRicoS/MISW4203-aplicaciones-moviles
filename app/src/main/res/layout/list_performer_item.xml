@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="album"
-            type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum" />
+            name="performer"
+            type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer" />
     </data>
 
     <FrameLayout
@@ -30,7 +30,7 @@
                 android:layout_height="64dp"
                 android:contentDescription=""
                 android:scaleType="centerCrop"
-                app:imageUrl="@{album.cover}" />
+                app:imageUrl="@{performer.image}" />
 
             <!-- Text container -->
             <LinearLayout
@@ -45,7 +45,7 @@
                     android:id="@+id/album_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{album.name}"
+                    android:text="@{performer.name}"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -54,7 +54,7 @@
                     android:id="@+id/album_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{album.author.isEmpty() ? @string/unknown_performer : album.author}"
+                    android:text="@{performer.description}"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
             </LinearLayout>

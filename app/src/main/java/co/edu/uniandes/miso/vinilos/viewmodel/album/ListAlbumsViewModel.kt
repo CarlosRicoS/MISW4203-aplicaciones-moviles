@@ -29,7 +29,7 @@ class ListAlbumsViewModel : ViewModel() {
                 _errorMessage.value = null
                 
                 val albumsList = albumsRepository.getSimplifiedVinylsAlbums()
-                _albums.value = albumsList
+                _albums.value = albumsList.sortedBy { it.name }
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
                 _albums.value = emptyList()

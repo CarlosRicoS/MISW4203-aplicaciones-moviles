@@ -1,4 +1,4 @@
-package co.edu.uniandes.miso.vinilos.view.album
+package co.edu.uniandes.miso.vinilos.view.performer
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,46 +11,46 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.uniandes.miso.vinilos.R
-import co.edu.uniandes.miso.vinilos.databinding.FragmentListAlbumsBinding
-import co.edu.uniandes.miso.vinilos.view.adapters.ListAlbumsAdapter
-import co.edu.uniandes.miso.vinilos.viewmodel.album.ListAlbumsViewModel
+import co.edu.uniandes.miso.vinilos.databinding.FragmentListPerformersBinding
+import co.edu.uniandes.miso.vinilos.view.adapters.ListPerformersAdapter
+import co.edu.uniandes.miso.vinilos.viewmodel.performer.ListPerformersViewModel
 
-class ListAlbumsFragment : Fragment() {
-
-    private var _binding: FragmentListAlbumsBinding? = null
+class ListPerformersFragment : Fragment() {
+    private var _binding: FragmentListPerformersBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: ListAlbumsViewModel by viewModels()
-    private var viewModelAdapter: ListAlbumsAdapter? = null
+    private val viewModel: ListPerformersViewModel by viewModels()
+    private var viewModelAdapter: ListPerformersAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListAlbumsBinding.inflate(inflater, container, false)
-        viewModelAdapter = ListAlbumsAdapter(){ albumId, albumName, albumCover ->
+        _binding = FragmentListPerformersBinding.inflate(inflater, container, false)
+        viewModelAdapter = ListPerformersAdapter(){ performerId, performerName, performerImage ->
 
             val bundle = Bundle().apply {
-                putInt("albumId", albumId)
-                putString("albumName", albumName)
-                putString("albumCover", albumCover)
+                putInt("performerId", performerId)
+                putString("performerName", performerName)
+                putString("performerImage", performerImage)
             }
-            findNavController().navigate(R.id.albumDetailFragment, bundle)
+            //findNavController().navigate(R.id.albumDetailFragment, bundle)
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding.albumsRv
+        recyclerView = binding.performerRv
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = viewModelAdapter
 
-        viewModel.albums.observe(viewLifecycleOwner) { albums ->
-            viewModelAdapter?.albums = albums
+        viewModel.performers.observe(viewLifecycleOwner) { performers ->
+            viewModelAdapter?.performer = performers
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.albumListProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.performerListProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
@@ -59,7 +59,7 @@ class ListAlbumsFragment : Fragment() {
             }
         }
 
-        viewModel.loadAlbums()
+        viewModel.loadPerformers()
     }
 
     override fun onDestroyView() {
