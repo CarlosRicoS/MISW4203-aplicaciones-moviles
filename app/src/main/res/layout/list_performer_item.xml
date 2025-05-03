@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="performer"
             type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer" />
@@ -54,7 +53,7 @@
                     android:id="@+id/performer_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{performer.description}"
+                    app:performerTypeText="@{performer.performerType}"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
             </LinearLayout>

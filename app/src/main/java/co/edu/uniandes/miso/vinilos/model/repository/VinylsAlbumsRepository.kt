@@ -1,10 +1,12 @@
 package co.edu.uniandes.miso.vinilos.model.repository
 
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsApiService
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsServiceAdapter
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
+import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import co.edu.uniandes.miso.vinilos.model.mapper.AlbumMapper
@@ -31,6 +33,20 @@ class VinylsAlbumsRepository {
         }
     }
 
+    suspend fun getVinylsMusicianById(id: Int): PerformerDTO {
+        return withContext(Dispatchers.IO) {
+            val performerDTO = vinylsApiService.getMusicianById(id)
+            performerDTO
+        }
+    }
+
+    suspend fun getVinylsBandById(id: Int): PerformerDTO {
+        return withContext(Dispatchers.IO) {
+            val performerDTO = vinylsApiService.getBandById(id)
+            performerDTO
+        }
+    }
+
     suspend fun getVinylsAlbumById(id: Int): DetailAlbum {
         return withContext(Dispatchers.IO) {
             val albumDTO = getVinylsAlbumDetailDTOById(id)
@@ -38,7 +54,20 @@ class VinylsAlbumsRepository {
         }
     }
 
-    suspend fun getVinylsAlbumPerformer(id: Int): SimplifiedPerformer? {
+    suspend fun getVinylsAlbumPerformer(id: Int, performerType: PerformerType): SimplifiedPerformer? {
+        return withContext(Dispatchers.IO) {
+            if (performerType == PerformerType.MUSICIAN) {
+                val performerDTO = getVinylsMusicianById(id)
+                PerformerMapper.fromRestMusicianToSimplifiedPerformer(performerDTO)
+            } else
+            {
+                val performer = getVinylsBandById(id)
+                PerformerMapper.fromRestBandToSimplifiedPerformer(performer)
+            }
+        }
+    }
+
+    suspend fun getVinylsAlbumPerformerByAlbumId(id: Int): SimplifiedPerformer? {
         return withContext(Dispatchers.IO) {
             val albumDTO = getVinylsAlbumDetailDTOById(id)
             val performers = albumDTO.performers

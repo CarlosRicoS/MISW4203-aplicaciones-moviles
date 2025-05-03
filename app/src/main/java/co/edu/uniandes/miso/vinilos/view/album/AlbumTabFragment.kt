@@ -16,6 +16,7 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentAlbumTabBinding
 import co.edu.uniandes.miso.vinilos.view.performer.PerformerDetailFragment
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
+import co.edu.uniandes.miso.vinilos.viewmodel.performer.PerformerDetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AlbumTabFragment : Fragment() {
@@ -23,7 +24,9 @@ class AlbumTabFragment : Fragment() {
     private var _binding: FragmentAlbumTabBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AlbumDetailViewModel by viewModels()
+    private val albumDetailViewModel: AlbumDetailViewModel by viewModels()
+    private val performerDetailViewModel: PerformerDetailViewModel by viewModels()
+
     private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
@@ -50,12 +53,15 @@ class AlbumTabFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.album.observe(viewLifecycleOwner) { album ->
+        albumDetailViewModel.album.observe(viewLifecycleOwner) { album ->
             (activity as? AppCompatActivity)?.supportActionBar?.title = album.name
+        }
+
+        albumDetailViewModel.comments.observe(viewLifecycleOwner) { _ ->
             progressBar.visibility = View.GONE
         }
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
+        albumDetailViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
@@ -68,7 +74,7 @@ class AlbumTabFragment : Fragment() {
 
         val tabTitles = listOf(
             getString(R.string.album_detail_general_tab),
-            getString(R.string.album_detail_performers_tab),
+            getString(R.string.performer_detail_title),
             getString(R.string.album_detail_comments_tab)
         )
 
@@ -79,9 +85,9 @@ class AlbumTabFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadData(albumId: Int) {
-        viewModel.loadAlbumDetail(albumId)
-        viewModel.loadPerformerDetail(albumId)
-        viewModel.loadCommentDetail(albumId)
+        albumDetailViewModel.loadAlbumDetail(albumId)
+        performerDetailViewModel.loadPerformerDetailByAlbumId(albumId)
+        albumDetailViewModel.loadCommentDetail(albumId)
     }
 
     override fun onDestroyView() {

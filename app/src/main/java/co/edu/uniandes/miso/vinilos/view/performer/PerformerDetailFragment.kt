@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import co.edu.uniandes.miso.vinilos.databinding.PerformerDetailBinding
-import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
+import co.edu.uniandes.miso.vinilos.viewmodel.performer.PerformerDetailViewModel
 import com.bumptech.glide.Glide
 import kotlin.getValue
 
@@ -15,7 +15,7 @@ class PerformerDetailFragment : Fragment() {
 
     private var _binding: PerformerDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AlbumDetailViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: PerformerDetailViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
