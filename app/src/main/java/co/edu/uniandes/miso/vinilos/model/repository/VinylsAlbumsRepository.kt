@@ -38,11 +38,16 @@ class VinylsAlbumsRepository {
         }
     }
 
-    suspend fun getVinylsAlbumPerformers(id: Int): List<SimplifiedPerformer> {
+    suspend fun getVinylsAlbumPerformer(id: Int): SimplifiedPerformer? {
         return withContext(Dispatchers.IO) {
             val albumDTO = getVinylsAlbumDetailDTOById(id)
             val performers = albumDTO.performers
-            PerformerMapper.fromRestDtoListSimplifiedPerformers(performers)
+            if (performers.isNotEmpty()) {
+                PerformerMapper.fromRestDtoToSimplifiedPerformer(performers[0])
+            } else
+            {
+                null
+            }
         }
     }
 

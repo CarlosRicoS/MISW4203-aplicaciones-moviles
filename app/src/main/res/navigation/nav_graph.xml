@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/albumDetailFragment"
-        android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumDetailFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumTabFragment"
         android:label="Album Name"
-        tools:layout="@layout/fragment_album_detail">
+        tools:layout="@layout/fragment_album_tab">
     </fragment>
     <fragment
         android:id="@+id/collectorsListFragment"

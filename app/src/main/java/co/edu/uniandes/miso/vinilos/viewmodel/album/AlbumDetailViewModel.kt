@@ -18,8 +18,8 @@ class AlbumDetailViewModel : ViewModel() {
     private val _album = MutableLiveData<DetailAlbum>()
     val album: LiveData<DetailAlbum> = _album
 
-    private val _performers = MutableLiveData<List<SimplifiedPerformer>>()
-    val performers: LiveData<List<SimplifiedPerformer>> = _performers
+    private val _performer = MutableLiveData<SimplifiedPerformer>()
+    val performer: LiveData<SimplifiedPerformer> = _performer
 
     private val _comments = MutableLiveData<List<DetailComment>>()
     val comments: LiveData<List<DetailComment>> = _comments
@@ -34,8 +34,6 @@ class AlbumDetailViewModel : ViewModel() {
             try {
                 val albumDetail = albumsRepository.getVinylsAlbumById(albumId)
                 _album.value = albumDetail
-                loadPerformerDetail(albumId)
-                loadCommentDetail(albumId)
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
             }
@@ -47,11 +45,12 @@ class AlbumDetailViewModel : ViewModel() {
     fun loadPerformerDetail(albumId: Int) {
         viewModelScope.launch {
             try {
-                val performersList = albumsRepository.getVinylsAlbumPerformers(albumId)
-                _performers.value = performersList
+                val performersData = albumsRepository.getVinylsAlbumPerformer(albumId)
+                if (performersData != null) {
+                    _performer.value = performersData!!
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
-                _performers.value = emptyList()
             }
         }
     }

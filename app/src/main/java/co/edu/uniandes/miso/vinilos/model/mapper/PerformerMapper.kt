@@ -19,12 +19,5 @@ class PerformerMapper {
                 description = performerDTO.description,
             )
         }
-
-        /**
-         * Converts a list of PerformerDTOs to a list of domain Simplified Performers
-         */
-        fun fromRestDtoListSimplifiedPerformers(performerDTOs: List<PerformerDTO>): List<SimplifiedPerformer> {
-            return performerDTOs.map { fromRestDtoToSimplifiedPerformer(it) }
-        }
     }
 }
