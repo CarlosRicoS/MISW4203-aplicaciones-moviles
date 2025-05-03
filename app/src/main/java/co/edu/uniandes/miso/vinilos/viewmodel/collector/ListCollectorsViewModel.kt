@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ListCollectorsViewModel : ViewModel() {
@@ -26,7 +25,6 @@ class ListCollectorsViewModel : ViewModel() {
             try {
                 _isLoading.value = true
                 _errorMessage.value = null
-                delay(700)
                 val collectorsList = listOf(
                     SimplifiedCollector(
                         id = 100,

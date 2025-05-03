@@ -1,6 +1,6 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.CommentDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CommentDTO
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 
 

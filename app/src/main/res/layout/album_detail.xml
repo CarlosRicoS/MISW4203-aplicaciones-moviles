@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album"
+            type="co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,12 +19,13 @@
         android:orientation="vertical">
 
             <TextView
-                android:id="@+id/año"
+                android:id="@+id/album_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:text="@{album.releaseDate}"/>
 
             <ImageView
                 android:id="@+id/album_cover"
@@ -27,15 +33,17 @@
                 android:layout_height="170dp"
                 android:layout_marginTop="17dp"
                 android:layout_marginBottom="17dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:imageUrl="@{album.cover}"/>
 
             <TextView
-                android:id="@+id/titulo"
+                android:id="@+id/album_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="@{album.name}"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -46,38 +54,39 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-
                     <TextView
-                        android:id="@+id/descripcion"
+                        android:id="@+id/album_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
                         android:layout_marginBottom="22dp"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:text="@{album.description}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:labelFor="@+id/genero"
+                        android:labelFor="@+id/album_genre"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                         android:text="@string/album_detail_general_genre"
                         android:textSize="18sp"/>
 
                     <TextView
-                        android:id="@+id/genero"
+                        android:id="@+id/album_genre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:text="@{album.genre}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:labelFor="@+id/genero"
+                        android:labelFor="@+id/album_recordLabel"
                         android:layout_marginTop="16dp"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
@@ -85,12 +94,13 @@
                         android:textSize="18sp"/>
 
                     <TextView
-                        android:id="@+id/recordLabel"
+                        android:id="@+id/album_recordLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:text="@{album.recordLabel}"/>
 
                 </LinearLayout>
             </ScrollView>

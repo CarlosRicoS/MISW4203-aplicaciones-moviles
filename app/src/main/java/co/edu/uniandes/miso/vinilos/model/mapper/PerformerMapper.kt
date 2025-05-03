@@ -1,6 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.PerformerDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
+import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 
 /**
@@ -17,14 +18,29 @@ class PerformerMapper {
                 name = performerDTO.name,
                 image = performerDTO.image,
                 description = performerDTO.description,
+                performerType = null
             )
         }
 
-        /**
-         * Converts a list of PerformerDTOs to a list of domain Simplified Performers
-         */
-        fun fromRestDtoListSimplifiedPerformers(performerDTOs: List<PerformerDTO>): List<SimplifiedPerformer> {
-            return performerDTOs.map { fromRestDtoToSimplifiedPerformer(it) }
+
+        fun fromRestMusicianToSimplifiedPerformer(performerDTO: PerformerDTO): SimplifiedPerformer {
+            return SimplifiedPerformer(
+                id = performerDTO.id,
+                name = performerDTO.name,
+                image = performerDTO.image,
+                description = performerDTO.description,
+                performerType = null,
+            )
+        }
+
+        fun fromRestBandToSimplifiedPerformer(performerDTO: PerformerDTO): SimplifiedPerformer {
+            return SimplifiedPerformer(
+                id = performerDTO.id,
+                name = performerDTO.name,
+                image = performerDTO.image,
+                description = performerDTO.description,
+                performerType = PerformerType.BAND
+            )
         }
     }
 }

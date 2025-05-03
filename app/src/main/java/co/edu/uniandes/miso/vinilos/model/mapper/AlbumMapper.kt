@@ -1,7 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
 import android.os.Build
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.album.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import java.time.LocalDate

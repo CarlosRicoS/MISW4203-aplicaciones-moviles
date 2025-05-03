@@ -28,14 +28,15 @@ class ListPerformersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListPerformersBinding.inflate(inflater, container, false)
-        viewModelAdapter = ListPerformersAdapter(){ performerId, performerName, performerImage ->
+        viewModelAdapter = ListPerformersAdapter(){ performerId, performerName, performerImage, performerType ->
 
             val bundle = Bundle().apply {
                 putInt("performerId", performerId)
                 putString("performerName", performerName)
                 putString("performerImage", performerImage)
+                putString("performerType", performerType.toString())
             }
-            //findNavController().navigate(R.id.albumDetailFragment, bundle)
+            findNavController().navigate(R.id.performerDetailContainerFragment, bundle)
         }
         return binding.root
     }
