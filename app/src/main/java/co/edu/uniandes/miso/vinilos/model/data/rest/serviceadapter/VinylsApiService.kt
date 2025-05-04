@@ -15,6 +15,12 @@ interface VinylsApiService {
     @GET("musicians/{id}")
     suspend fun getMusicianById(@Path("id") id: Int): PerformerDTO
 
+    @GET("musicians")
+    suspend fun getMusicians(): List<PerformerDTO>
+
+    @GET("bands")
+    suspend fun getBands(): List<PerformerDTO>
+
     @GET("bands/{id}")
     suspend fun getBandById(@Path("id") id: Int): PerformerDTO
 }
