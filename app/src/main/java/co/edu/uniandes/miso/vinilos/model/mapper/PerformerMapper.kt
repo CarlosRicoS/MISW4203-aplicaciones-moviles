@@ -1,8 +1,11 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
+import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
+import co.edu.uniandes.miso.vinilos.model.mapper.AlbumMapper.Companion.fromRestDtoToSimplifiedAlbum
 
 /**
  * Mapper class to convert between PerformerDTO and Performer domain models
@@ -22,14 +25,13 @@ class PerformerMapper {
             )
         }
 
-
         fun fromRestMusicianToSimplifiedPerformer(performerDTO: PerformerDTO): SimplifiedPerformer {
             return SimplifiedPerformer(
                 id = performerDTO.id,
                 name = performerDTO.name,
                 image = performerDTO.image,
                 description = performerDTO.description,
-                performerType = null,
+                performerType = PerformerType.MUSICIAN
             )
         }
 
@@ -41,6 +43,14 @@ class PerformerMapper {
                 description = performerDTO.description,
                 performerType = PerformerType.BAND
             )
+        }
+
+        fun fromRestDtoListSimplifiedPerformers(performersDTO: List<PerformerDTO>, performerType: PerformerType): List<SimplifiedPerformer> {
+            return performersDTO.map {
+                if (performerType == PerformerType.MUSICIAN)
+                    fromRestMusicianToSimplifiedPerformer(it)
+                else fromRestBandToSimplifiedPerformer(it)
+            }
         }
     }
 }

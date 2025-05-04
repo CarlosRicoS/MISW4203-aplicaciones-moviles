@@ -1,5 +1,6 @@
 package co.edu.uniandes.miso.vinilos.view.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -16,10 +17,10 @@ class ListPerformersAdapter(
     private val onPerformerClick: (Int, String, String, PerformerType) -> Unit
 ) : RecyclerView.Adapter<ListPerformersAdapter.ListPerformersViewHolder>() {
     var performer: List<SimplifiedPerformer> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPerformersViewHolder {
         val withDataBinding: ListPerformerItemBinding= DataBindingUtil.inflate(
@@ -36,7 +37,12 @@ class ListPerformersAdapter(
             it.performer = performer[position]
         }
         holder.viewDataBinding.root.setOnClickListener {
-            onPerformerClick(performer[position].id, performer[position].name, performer[position].image, performer[position].performerType!!)
+            onPerformerClick(
+                performer[position].id,
+                performer[position].name,
+                performer[position].image,
+                performer[position].performerType!!
+            )
         }
     }
 
