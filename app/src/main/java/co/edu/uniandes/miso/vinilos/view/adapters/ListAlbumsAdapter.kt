@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,8 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.ListAlbumItemBinding
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.io.File
-import androidx.core.net.toUri
 
 class ListAlbumsAdapter(
     private val onAlbumClick: (Int, String, String) -> Unit
@@ -69,7 +70,8 @@ fun loadImage(view: ImageView, path: String?) {
 
     Glide.with(view.context)
         .load(uri)
-        .placeholder(R.drawable.music_note_24dp)
-        .error(R.drawable.music_note_24dp)
+        .placeholder(R.drawable.loading_animation)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .error(R.drawable.ic_broken_image)
         .into(view)
 }
