@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsMusiciansRepository
 import kotlinx.coroutines.launch

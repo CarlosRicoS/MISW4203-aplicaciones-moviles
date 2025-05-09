@@ -1,11 +1,8 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
-import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
-import co.edu.uniandes.miso.vinilos.model.mapper.AlbumMapper.Companion.fromRestDtoToSimplifiedAlbum
 
 /**
  * Mapper class to convert between PerformerDTO and Performer domain models
