@@ -44,7 +44,7 @@ class ListCollectorsFragment : Fragment() {
         recyclerView.adapter = viewModelAdapter
 
         viewModel.collectors.observe(viewLifecycleOwner) { collectors ->
-            viewModelAdapter?.collector = collectors
+            viewModelAdapter?.setCollectors(collectors)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

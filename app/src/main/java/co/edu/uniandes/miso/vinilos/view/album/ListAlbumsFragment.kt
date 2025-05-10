@@ -46,7 +46,7 @@ class ListAlbumsFragment : Fragment() {
         recyclerView.adapter = viewModelAdapter
 
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
-            viewModelAdapter?.albums = albums
+            viewModelAdapter?.setAlbums(albums)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
