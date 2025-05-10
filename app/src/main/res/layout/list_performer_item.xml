@@ -3,61 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="performer"
             type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="8dp">
+        android:orientation="horizontal"
+        android:padding="24dp">
 
+        <!-- Album cover image -->
+        <ImageView
+            android:id="@+id/performer_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            app:imageUrl="@{performer.image}" />
+
+        <!-- Text container -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <!-- Album cover image -->
-            <ImageView
-                android:id="@+id/performer_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:contentDescription=""
-                android:scaleType="centerCrop"
-                app:imageUrl="@{performer.image}" />
+            <TextView
+                android:id="@+id/performer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{performer.name}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <!-- Text container -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/performer_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{performer.name}"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/performer_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:performerTypeText="@{performer.performerType}"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/performer_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
+                app:performerTypeText="@{performer.performerType}" />
         </LinearLayout>
-    </FrameLayout>
+
+    </LinearLayout>
 </layout>
