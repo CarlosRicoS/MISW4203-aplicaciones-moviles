@@ -47,7 +47,7 @@ class ListPerformersFragment : Fragment() {
         recyclerView.adapter = viewModelAdapter
 
         viewModel.performers.observe(viewLifecycleOwner) { performers ->
-            viewModelAdapter?.performer = performers
+            viewModelAdapter?.setPerformers(performers)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

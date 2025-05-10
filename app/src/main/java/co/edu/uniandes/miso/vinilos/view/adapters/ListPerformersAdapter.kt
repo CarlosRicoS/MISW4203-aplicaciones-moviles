@@ -11,15 +11,14 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.ListPerformerItemBinding
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
+import java.lang.ref.WeakReference
 
 class ListPerformersAdapter(
     private val onPerformerClick: (Int, String, String, PerformerType) -> Unit
 ) : RecyclerView.Adapter<ListPerformersAdapter.ListPerformersViewHolder>() {
-    var performer: List<SimplifiedPerformer> = emptyList()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+
+    private var performers: WeakReference<List<SimplifiedPerformer>> = WeakReference(emptyList())
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPerformersViewHolder {
         val withDataBinding: ListPerformerItemBinding= DataBindingUtil.inflate(
@@ -33,20 +32,30 @@ class ListPerformersAdapter(
 
     override fun onBindViewHolder(holder: ListPerformersViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.performer = performer[position]
+            it.performer = getPerformers()[position]
         }
         holder.viewDataBinding.root.setOnClickListener {
             onPerformerClick(
-                performer[position].id,
-                performer[position].name,
-                performer[position].image,
-                performer[position].performerType!!
+                getPerformers()[position].id,
+                getPerformers()[position].name,
+                getPerformers()[position].image,
+                getPerformers()[position].performerType!!
             )
         }
     }
 
     override fun getItemCount(): Int {
-        return performer.size
+        return getPerformers().size
+    }
+
+    private fun getPerformers(): List<SimplifiedPerformer> {
+        return performers.get()!!
+    }
+
+    fun setPerformers(newCollectors: List<SimplifiedPerformer>) {
+
+        this.performers = WeakReference(newCollectors)
+        notifyDataSetChanged()
     }
 
     class ListPerformersViewHolder(val viewDataBinding: ListPerformerItemBinding) :

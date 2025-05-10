@@ -8,15 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.ListCollectorItemBinding
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector
+import java.lang.ref.WeakReference
 
 class ListCollectorsAdapter(
     private val onCollectorClick: (Int, String) -> Unit
 ) : RecyclerView.Adapter<ListCollectorsAdapter.ListCollectorsViewHolder>() {
-    var collector: List<SimplifiedCollector> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+
+    private var collectors: WeakReference<List<SimplifiedCollector>> = WeakReference(emptyList())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListCollectorsViewHolder {
         val withDataBinding: ListCollectorItemBinding= DataBindingUtil.inflate(
@@ -30,15 +28,25 @@ class ListCollectorsAdapter(
 
     override fun onBindViewHolder(holder: ListCollectorsViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.collector = collector[position]
+            it.collector = getCollectors()[position]
         }
         holder.viewDataBinding.root.setOnClickListener {
-            onCollectorClick(collector[position].id, collector[position].name)
+            onCollectorClick(getCollectors()[position].id, getCollectors()[position].name)
         }
     }
 
     override fun getItemCount(): Int {
-        return collector.size
+        return getCollectors().size
+    }
+
+    private fun getCollectors(): List<SimplifiedCollector> {
+        return collectors.get()!!
+    }
+
+    fun setCollectors(newCollectors: List<SimplifiedCollector>) {
+
+        this.collectors = WeakReference(newCollectors)
+        notifyDataSetChanged()
     }
 
     class ListCollectorsViewHolder(val viewDataBinding: ListCollectorItemBinding) :

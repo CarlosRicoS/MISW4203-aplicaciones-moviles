@@ -15,16 +15,13 @@ import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.io.File
+import java.lang.ref.WeakReference
 
 class ListAlbumsAdapter(
     private val onAlbumClick: (Int, String, String) -> Unit
 ) : RecyclerView.Adapter<ListAlbumsAdapter.ListAlbumsViewHolder>() {
 
-    var albums: List<SimplifiedAlbum> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    private var albums: WeakReference<List<SimplifiedAlbum>> = WeakReference(emptyList())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAlbumsViewHolder {
         val withDataBinding: ListAlbumItemBinding = DataBindingUtil.inflate(
@@ -38,15 +35,25 @@ class ListAlbumsAdapter(
 
     override fun onBindViewHolder(holder: ListAlbumsViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.album = albums[position]
+            it.album = getAlbums()!![position]
         }
         holder.viewDataBinding.root.setOnClickListener {
-            onAlbumClick(albums[position].id, albums[position].name, albums[position].cover)
+            onAlbumClick(getAlbums()!![position].id, getAlbums()!![position].name, getAlbums()!![position].cover)
         }
     }
 
     override fun getItemCount(): Int {
-        return albums.size
+        return getAlbums()!!.size
+    }
+
+    private fun getAlbums(): List<SimplifiedAlbum>? {
+        return albums.get()
+    }
+
+    fun setAlbums(newAlbums: List<SimplifiedAlbum>) {
+
+        this.albums = WeakReference(newAlbums)
+        notifyDataSetChanged()
     }
 
     class ListAlbumsViewHolder(val viewDataBinding: ListAlbumItemBinding) :
