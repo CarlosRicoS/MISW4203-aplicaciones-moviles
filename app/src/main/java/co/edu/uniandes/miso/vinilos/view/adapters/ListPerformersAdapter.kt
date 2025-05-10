@@ -1,6 +1,5 @@
 package co.edu.uniandes.miso.vinilos.view.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView

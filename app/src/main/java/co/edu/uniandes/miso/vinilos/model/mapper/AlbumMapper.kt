@@ -6,7 +6,6 @@ import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import java.time.LocalDate
 import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 /**
