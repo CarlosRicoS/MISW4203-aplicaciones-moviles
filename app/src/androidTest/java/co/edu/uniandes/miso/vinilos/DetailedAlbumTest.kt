@@ -47,23 +47,23 @@ class DetailedAlbumTest {
         )
 
         // When
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         // Then
         val textView = onView(
             allOf(
-                withId(R.id.album_year), withText("1976"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withId(R.id.album_year), withText("1984"),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
-        textView.check(matches(withText("1976")))
+        textView.check(matches(withText("1984")))
 
         val imageView = onView(
             allOf(
                 withId(R.id.album_cover),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -72,7 +72,7 @@ class DetailedAlbumTest {
         val textView2 = onView(
             allOf(
                 withId(R.id.album_title), withText("Buscando América"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -118,12 +118,12 @@ class DetailedAlbumTest {
                 )
             )
         )
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         val tabView = onView(
             allOf(
-                withContentDescription("ARTISTAS"),
+                withContentDescription("ARTISTA"),
                 childAtPosition(
                     childAtPosition(
                         withId(R.id.albumDetailTabs),
@@ -144,7 +144,7 @@ class DetailedAlbumTest {
         val imageView = onView(
             allOf(
                 withId(R.id.performer_image),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -153,7 +153,7 @@ class DetailedAlbumTest {
         val textView = onView(
             allOf(
                 withId(R.id.performer_name), withText("Rubén Blades Bellido de Luna"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -185,7 +185,7 @@ class DetailedAlbumTest {
                 )
             )
         )
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         val tabView = onView(

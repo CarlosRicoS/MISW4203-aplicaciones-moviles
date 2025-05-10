@@ -9,56 +9,51 @@
             type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum" />
     </data>
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="8dp">
+        android:orientation="horizontal"
+        android:padding="24dp">
 
+        <!-- Album cover image -->
+        <ImageView
+            android:id="@+id/album_cover"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            app:imageUrl="@{album.cover}" />
+
+        <!-- Text container -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <!-- Album cover image -->
-            <ImageView
-                android:id="@+id/album_cover"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:contentDescription=""
-                android:scaleType="centerCrop"
-                app:imageUrl="@{album.cover}" />
+            <TextView
+                android:id="@+id/album_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{album.name}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <!-- Text container -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/album_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{album.name}"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/album_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{album.author.isEmpty() ? @string/unknown_performer : album.author}"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/album_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{album.author.isEmpty() ? @string/unknown_performer : album.author}"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
         </LinearLayout>
-    </FrameLayout>
+
+    </LinearLayout>
 </layout>

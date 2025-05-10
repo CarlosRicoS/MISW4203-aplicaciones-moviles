@@ -75,29 +75,28 @@ class ListCollectorTest {
         Thread.sleep(timeToWait)
     }
 
-    private fun getListCollectorItem(collectorName:String, collectorEmail:String): ViewInteraction = onView(
+    private fun getListCollectorItem(
+        collectorName: String,
+        collectorEmail: String
+    ): ViewInteraction = onView(
         allOf(
-            IsInstanceOf.instanceOf(FrameLayout::class.java),
+
+            IsInstanceOf.instanceOf(LinearLayout::class.java),
             withChild(
                 allOf(
                     IsInstanceOf.instanceOf(LinearLayout::class.java),
                     withChild(
                         allOf(
-                            IsInstanceOf.instanceOf(LinearLayout::class.java),
-                            withChild(
-                                allOf(
-                                    IsInstanceOf.instanceOf(TextView::class.java),
-                                    withId(R.id.collector_name),
-                                    withText(collectorName)
-                                )
-                            ),
-                            withChild(
-                                allOf(
-                                    IsInstanceOf.instanceOf(TextView::class.java),
-                                    withId(R.id.collector_email),
-                                    withText(collectorEmail)
-                                )
-                            )
+                            IsInstanceOf.instanceOf(TextView::class.java),
+                            withId(R.id.collector_name),
+                            withText(collectorName)
+                        )
+                    ),
+                    withChild(
+                        allOf(
+                            IsInstanceOf.instanceOf(TextView::class.java),
+                            withId(R.id.collector_email),
+                            withText(collectorEmail)
                         )
                     )
                 )
