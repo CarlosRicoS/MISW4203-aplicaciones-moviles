@@ -35,19 +35,19 @@ class ListAlbumsAdapter(
 
     override fun onBindViewHolder(holder: ListAlbumsViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.album = getAlbums()!![position]
+            it.album = getAlbums()[position]
         }
         holder.viewDataBinding.root.setOnClickListener {
-            onAlbumClick(getAlbums()!![position].id, getAlbums()!![position].name, getAlbums()!![position].cover)
+            onAlbumClick(getAlbums()[position].id, getAlbums()[position].name, getAlbums()[position].cover)
         }
     }
 
     override fun getItemCount(): Int {
-        return getAlbums()!!.size
+        return getAlbums().size
     }
 
-    private fun getAlbums(): List<SimplifiedAlbum>? {
-        return albums.get()
+    private fun getAlbums(): List<SimplifiedAlbum> {
+        return albums.get()!!
     }
 
     fun setAlbums(newAlbums: List<SimplifiedAlbum>) {
