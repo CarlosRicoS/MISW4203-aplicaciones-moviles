@@ -1,7 +1,6 @@
 package co.edu.uniandes.miso.vinilos
 
 
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
