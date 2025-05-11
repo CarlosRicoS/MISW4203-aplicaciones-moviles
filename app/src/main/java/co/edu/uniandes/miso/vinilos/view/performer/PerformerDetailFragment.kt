@@ -10,7 +10,6 @@ import co.edu.uniandes.miso.vinilos.databinding.PerformerDetailBinding
 import co.edu.uniandes.miso.vinilos.viewmodel.performer.PerformerDetailViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class PerformerDetailFragment : Fragment() {

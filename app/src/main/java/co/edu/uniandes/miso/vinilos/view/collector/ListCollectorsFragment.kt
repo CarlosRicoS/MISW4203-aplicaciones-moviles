@@ -15,7 +15,6 @@ import co.edu.uniandes.miso.vinilos.databinding.FragmentListCollectorsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListCollectorsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.collector.ListCollectorsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class ListCollectorsFragment : Fragment() {
