@@ -2,7 +2,6 @@ package co.edu.uniandes.miso.vinilos.model.repository
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO

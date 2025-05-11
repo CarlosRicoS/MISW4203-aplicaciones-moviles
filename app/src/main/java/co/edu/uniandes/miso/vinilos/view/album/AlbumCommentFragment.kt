@@ -12,7 +12,6 @@ import co.edu.uniandes.miso.vinilos.databinding.AlbumDetailCommentsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.CommentAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class AlbumCommentFragment : Fragment() {

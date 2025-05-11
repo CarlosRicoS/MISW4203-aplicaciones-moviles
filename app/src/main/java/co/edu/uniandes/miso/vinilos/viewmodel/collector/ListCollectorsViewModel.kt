@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector
-import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsCollectorsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -12,7 +12,6 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.viewmodel.performer.PerformerDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class PerformerDetailContainerFragment : Fragment(R.layout.performer_detail_container) {

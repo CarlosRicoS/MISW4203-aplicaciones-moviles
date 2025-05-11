@@ -3,7 +3,6 @@ package co.edu.uniandes.miso.vinilos.model.data.sqlite.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 
 @Entity(tableName = "performer")
 data class Performer (
