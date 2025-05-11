@@ -14,7 +14,9 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListAlbumsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListAlbumsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.ListAlbumsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListAlbumsFragment : Fragment() {
 
     private var _binding: FragmentListAlbumsBinding? = null

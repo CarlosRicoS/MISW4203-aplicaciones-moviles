@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.edu.uniandes.miso.vinilos.databinding.ActivityMainBinding
 import co.edu.uniandes.miso.vinilos.view.DrawerItem
 import co.edu.uniandes.miso.vinilos.view.adapters.DrawerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

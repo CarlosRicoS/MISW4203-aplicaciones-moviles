@@ -1,6 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 
@@ -48,6 +49,16 @@ class PerformerMapper {
                     fromRestMusicianToSimplifiedPerformer(it)
                 else fromRestBandToSimplifiedPerformer(it)
             }
+        }
+
+        fun fromPerformerEntityToDto(performer: Performer): PerformerDTO {
+            return PerformerDTO(
+                id = performer.id,
+                name = performer.name,
+                image = performer.image,
+                description = performer.description,
+                albums = listOf()
+            )
         }
     }
 }
