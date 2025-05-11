@@ -9,10 +9,14 @@ import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlbumDetailViewModel : ViewModel() {
-    private val albumsRepository = VinylsAlbumsRepository()
+@HiltViewModel
+class AlbumDetailViewModel @Inject constructor(
+    private val albumsRepository: VinylsAlbumsRepository
+): ViewModel() {
 
     private val _album = MutableLiveData<DetailAlbum>()
     val album: LiveData<DetailAlbum> = _album
@@ -23,8 +27,7 @@ class AlbumDetailViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadAlbumDetail(albumId: Int) {
         viewModelScope.launch {
             try {
@@ -37,7 +40,7 @@ class AlbumDetailViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadCommentDetail(albumId: Int) {
         viewModelScope.launch {
             try {

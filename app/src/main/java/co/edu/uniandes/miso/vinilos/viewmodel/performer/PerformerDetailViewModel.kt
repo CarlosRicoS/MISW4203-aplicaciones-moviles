@@ -9,11 +9,14 @@ import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PerformerDetailViewModel : ViewModel() {
-
-    private val albumsRepository = VinylsAlbumsRepository()
+@HiltViewModel
+class PerformerDetailViewModel @Inject constructor(
+    private val albumsRepository: VinylsAlbumsRepository
+) : ViewModel() {
 
     private val _performer = MutableLiveData<SimplifiedPerformer>()
     val performer: LiveData<SimplifiedPerformer> = _performer

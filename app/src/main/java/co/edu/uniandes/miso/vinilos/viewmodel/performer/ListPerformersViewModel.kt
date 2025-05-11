@@ -1,16 +1,22 @@
 package co.edu.uniandes.miso.vinilos.viewmodel.performer
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
+import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsMusiciansRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ListPerformersViewModel : ViewModel() {
-
-    private val performersRepository = VinylsMusiciansRepository()
+@HiltViewModel
+class ListPerformersViewModel @Inject constructor(
+    private val performersRepository: VinylsMusiciansRepository
+) : ViewModel() {
 
     private val _performers = MutableLiveData<List<SimplifiedPerformer>>()
 
@@ -22,6 +28,7 @@ class ListPerformersViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadPerformers() {
         viewModelScope.launch {
             try {

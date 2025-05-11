@@ -2,6 +2,12 @@ package co.edu.uniandes.miso.vinilos.model.mapper
 
 import android.os.Build
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CommentDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Album
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Track
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum
 import java.time.LocalDate
@@ -12,9 +18,9 @@ import java.time.format.DateTimeParseException
  * Mapper class to convert between AlbumDTO and Album domain models
  */
 class AlbumMapper {
-    
+
     companion object {
-        
+
         /**
          * Converts an AlbumDTO to a domain SimplifiedAlbum
          */
@@ -71,5 +77,117 @@ class AlbumMapper {
             return albumDTOs.map { fromRestDtoToDetailAlbum(it) }
         }
 
+        fun fromAlbumListEntityToDTO(
+            albums: List<Album>,
+            performers: List<Performer>,
+            comments: List<Comment>,
+            tracks: List<Track>
+        ): List<AlbumDTO> {
+            return albums.fold(mutableListOf<AlbumDTO>()) { acc, album ->
+                var albumTrandformed = AlbumDTO(
+                    id = album.id,
+                    name = album.name,
+                    cover = album.cover,
+                    releaseDate = album.releaseDate,
+                    description = album.description,
+                    genre = album.genre,
+                    recordLabel = album.recordLabel,
+                    performers = performers.filter { performer -> performer.id == album.id }
+                        .map { performer ->
+                            PerformerDTO(
+                                id = performer.id,
+                                name = performer.name,
+                                image = performer.image,
+                                description = performer.description,
+                                albums = listOf()
+                            )
+                        },
+                    tracks = tracks.filter { track -> track.albumId == album.id }
+                        .map { track ->
+                            co.edu.uniandes.miso.vinilos.model.data.rest.dto.Track(
+                                id = track.id,
+                                name = track.name,
+                                duration = track.duration,
+                            )
+                        },
+                    comments = comments.filter { comment -> comment.albumId == album.id }
+                        .map { comment ->
+                            CommentDTO(
+                                id = comment.id,
+                                description = comment.description,
+                                rating = comment.rating
+                            )
+                        }
+                )
+                acc.add(albumTrandformed)
+                acc
+            }
+        }
+
+        fun fromAlbumEntityToDTO(
+            albums: List<Album>,
+            performers: List<Performer>,
+            comments: List<Comment>,
+            tracks: List<Track>
+        ): AlbumDTO {
+            return AlbumDTO(
+                id = albums[0].id,
+                name = albums[0].name,
+                cover = albums[0].cover,
+                releaseDate = albums[0].releaseDate,
+                description = albums[0].description,
+                genre = albums[0].genre,
+                recordLabel = albums[0].recordLabel,
+                performers = performers.map { performer -> PerformerMapper.fromPerformerEntityToDto(performer) },
+                comments = comments.map { comment -> CommentMapper.fromCommentEntityToDto(comment) },
+                tracks = tracks.map { track ->
+                    co.edu.uniandes.miso.vinilos.model.data.rest.dto.Track(
+                        id = track.id,
+                        name = track.name,
+                        duration = track.duration
+                    )
+                }
+            )
+        }
+
+        fun fromAlbumDTOToEntity(albums: List<AlbumDTO>): List<List<Any>> {
+            var comments = mutableListOf<Comment>()
+            var performers = mutableListOf<Performer>()
+            var tracks = mutableListOf<Track>()
+
+            val albums = albums.map {
+                album ->
+                album.comments.map {
+                    comment ->
+                    if (!comments.any { c -> c.id == comment.id }) {
+                        comments.add(Comment(comment.id, comment.description, comment.rating, album.id))
+                    }
+                }
+                album.performers.map {
+                    performer ->
+                    if (!performers.any { p -> p.id == performer.id }) {
+                        performers.add(Performer(performer.id, performer.name, performer.image, performer.description, null))
+                    }
+                }
+                album.tracks.map {
+                    track ->
+                    if (!tracks.any { t -> t.id == track.id }) {
+                        tracks.add(Track(track.id, track.name, track.duration, album.id))
+                    }
+                }
+                Album (
+                    id = album.id,
+                    name = album.name,
+                    cover = album.cover,
+                    releaseDate = album.releaseDate,
+                    description = album.description,
+                    genre = album.genre,
+                    recordLabel = album.recordLabel,
+                    performerId = album.performers[0].id
+                )
+            }
+
+            return listOf(albums, performers, comments, tracks)
+        }
     }
-} 
+}

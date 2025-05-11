@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import co.edu.uniandes.miso.vinilos.databinding.AlbumDetailBinding
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlbumDetailFragment : Fragment() {
     private val viewModel: AlbumDetailViewModel by viewModels({ requireParentFragment() })
     private var _binding: AlbumDetailBinding? = null

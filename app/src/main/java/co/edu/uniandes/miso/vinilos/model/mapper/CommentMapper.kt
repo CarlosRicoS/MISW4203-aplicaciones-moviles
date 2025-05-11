@@ -1,6 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.mapper
 
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CommentDTO
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 
 
@@ -26,6 +27,14 @@ class CommentMapper {
          */
         fun fromRestDtoListDetailComments(commentDTOs: List<CommentDTO>): List<DetailComment> {
             return commentDTOs.map { fromRestDtoToDetailComment(it) }
+        }
+
+        fun fromCommentEntityToDto(comment: Comment): CommentDTO {
+            return CommentDTO(
+                id = comment.id,
+                description = comment.description,
+                rating = comment.rating
+            )
         }
     }
 }

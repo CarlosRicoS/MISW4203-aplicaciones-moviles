@@ -18,7 +18,9 @@ import co.edu.uniandes.miso.vinilos.view.performer.PerformerDetailFragment
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
 import co.edu.uniandes.miso.vinilos.viewmodel.performer.PerformerDetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlbumTabFragment : Fragment() {
 
     private var _binding: FragmentAlbumTabBinding? = null

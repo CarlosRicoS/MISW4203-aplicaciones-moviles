@@ -1,10 +1,12 @@
 package co.edu.uniandes.miso.vinilos.view.performer
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +16,9 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListPerformersBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListPerformersAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.performer.ListPerformersViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListPerformersFragment : Fragment() {
     private var _binding: FragmentListPerformersBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +45,7 @@ class ListPerformersFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = binding.performerRv
         recyclerView.layoutManager = LinearLayoutManager(context)
