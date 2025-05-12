@@ -8,18 +8,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
-import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlbumDetailViewModel : ViewModel() {
-    private val albumsRepository = VinylsAlbumsRepository()
+@HiltViewModel
+class AlbumDetailViewModel @Inject constructor(
+    private val albumsRepository: VinylsAlbumsRepository
+): ViewModel() {
 
     private val _album = MutableLiveData<DetailAlbum>()
     val album: LiveData<DetailAlbum> = _album
-
-    private val _performers = MutableLiveData<List<SimplifiedPerformer>>()
-    val performers: LiveData<List<SimplifiedPerformer>> = _performers
 
     private val _comments = MutableLiveData<List<DetailComment>>()
     val comments: LiveData<List<DetailComment>> = _comments
@@ -27,15 +27,12 @@ class AlbumDetailViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadAlbumDetail(albumId: Int) {
         viewModelScope.launch {
             try {
-                val albumDetail = albumsRepository.getVinylsAlbumById(albumId)
+                val albumDetail = albumsRepository.getDetailedAlbumById(albumId)
                 _album.value = albumDetail
-                loadPerformerDetail(albumId)
-                loadCommentDetail(albumId)
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
             }
@@ -43,20 +40,7 @@ class AlbumDetailViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun loadPerformerDetail(albumId: Int) {
-        viewModelScope.launch {
-            try {
-                val performersList = albumsRepository.getVinylsAlbumPerformers(albumId)
-                _performers.value = performersList
-            } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Unknown error occurred"
-                _performers.value = emptyList()
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadCommentDetail(albumId: Int) {
         viewModelScope.launch {
             try {

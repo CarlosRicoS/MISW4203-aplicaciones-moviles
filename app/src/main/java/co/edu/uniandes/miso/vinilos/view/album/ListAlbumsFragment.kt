@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,9 @@ import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListAlbumsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListAlbumsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.ListAlbumsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListAlbumsFragment : Fragment() {
 
     private var _binding: FragmentListAlbumsBinding? = null
@@ -47,11 +48,11 @@ class ListAlbumsFragment : Fragment() {
         recyclerView.adapter = viewModelAdapter
 
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
-            viewModelAdapter?.albums = albums
+            viewModelAdapter?.setAlbums(albums)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.albumListProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->

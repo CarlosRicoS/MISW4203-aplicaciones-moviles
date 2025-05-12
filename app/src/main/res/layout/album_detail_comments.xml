@@ -79,7 +79,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/commentsRecyclerView"/>
+            android:id="@+id/commentsRecyclerView"
+            tools:listitem="@layout/album_detail_comment_item"/>
 
     </LinearLayout>
 </layout>

@@ -25,7 +25,7 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class DetailedAlbumTest {
-    
+
     private val timeToWait = 1000L
 
     @Rule
@@ -47,14 +47,14 @@ class DetailedAlbumTest {
         )
 
         // When
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         // Then
         val textView = onView(
             allOf(
-                withId(R.id.año), withText("1984"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withId(R.id.album_year), withText("1984"),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -63,7 +63,7 @@ class DetailedAlbumTest {
         val imageView = onView(
             allOf(
                 withId(R.id.album_cover),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -71,8 +71,8 @@ class DetailedAlbumTest {
 
         val textView2 = onView(
             allOf(
-                withId(R.id.titulo), withText("Buscando América"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withId(R.id.album_title), withText("Buscando América"),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -80,7 +80,7 @@ class DetailedAlbumTest {
 
         val textView3 = onView(
             allOf(
-                withId(R.id.descripcion),
+                withId(R.id.album_description),
                 withText("Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983."),
                 isDisplayed()
             )
@@ -89,7 +89,7 @@ class DetailedAlbumTest {
 
         val textView4 = onView(
             allOf(
-                withId(R.id.genero), withText("Salsa"),
+                withId(R.id.album_genre), withText("Salsa"),
                 isDisplayed()
             )
         )
@@ -97,7 +97,7 @@ class DetailedAlbumTest {
 
         val textView5 = onView(
             allOf(
-                withId(R.id.recordLabel), withText("Elektra"),
+                withId(R.id.album_recordLabel), withText("Elektra"),
                 isDisplayed()
             )
         )
@@ -118,12 +118,12 @@ class DetailedAlbumTest {
                 )
             )
         )
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         val tabView = onView(
             allOf(
-                withContentDescription("ARTISTAS"),
+                withContentDescription("ARTISTA"),
                 childAtPosition(
                     childAtPosition(
                         withId(R.id.albumDetailTabs),
@@ -144,7 +144,7 @@ class DetailedAlbumTest {
         val imageView = onView(
             allOf(
                 withId(R.id.performer_image),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -153,7 +153,7 @@ class DetailedAlbumTest {
         val textView = onView(
             allOf(
                 withId(R.id.performer_name), withText("Rubén Blades Bellido de Luna"),
-                withParent(withParent(IsInstanceOf.instanceOf(androidx.recyclerview.widget.RecyclerView::class.java))),
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -185,7 +185,7 @@ class DetailedAlbumTest {
                 )
             )
         )
-        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        recyclerView.perform(actionOnItemAtPosition<ViewHolder>(2, click()))
         Thread.sleep(timeToWait)
 
         val tabView = onView(

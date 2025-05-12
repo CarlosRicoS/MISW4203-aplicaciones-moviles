@@ -2,10 +2,10 @@
     <string name="app_name">MISW4203Grupo14</string>
     <string name="albums_menu_title">Albumes</string>
     <string name="collectors_menu_title">Coleccionistas</string>
-    <string name="artists_menu_title">Artistas</string>
+    <string name="performer_menu_title">Artistas</string>
     <string name="toolbar_search_text">Buscar</string>
     <string name="album_detail_general_tab">General</string>
-    <string name="album_detail_performers_tab">Artistas</string>
+    <string name="performer_detail_title">Artista</string>
     <string name="album_detail_comments_tab">Comentarios</string>
     <string name="album_detail_general_genre">Género</string>
     <string name="album_detail_general_record_label">Record Label</string>
@@ -13,4 +13,6 @@
     <string name="album_detail_comments_textinput_placeholder">Comentario</string>
     <string name="album_detail_comments_add_button">AGREGAR</string>
     <string name="unknown_performer">Artista desconocido</string>
+    <string name="performer_type_band">Banda</string>
+    <string name="performer_type_musician">Músico</string>
 </resources>

@@ -15,20 +15,36 @@
             android:id="@+id/action_listAlbum_to_detailAlbum"
             app:destination="@id/albumDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/albumDetailFragment"
-        android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumDetailFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.album.AlbumTabFragment"
         android:label="Album Name"
-        tools:layout="@layout/fragment_album_detail">
+        tools:layout="@layout/fragment_album_tab">
     </fragment>
+
     <fragment
         android:id="@+id/collectorsListFragment"
         android:name="co.edu.uniandes.miso.vinilos.view.collector.ListCollectorsFragment"
         android:label="@string/collectors_menu_title"
         tools:layout="@layout/fragment_list_collectors"/>
+
     <fragment
-        android:id="@+id/artistsListFragment"
-        android:name="co.edu.uniandes.miso.vinilos.view.artist.ListArtistsFragment"
-        android:label="@string/artists_menu_title"
-        tools:layout="@layout/fragment_list_artists"/>
+        android:id="@+id/performerListFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.performer.ListPerformersFragment"
+        android:label="@string/performer_menu_title"
+        tools:layout="@layout/fragment_list_performers">
+        <action
+            android:name="co.edu.uniandes.miso.vinilos.view.performer.PerformerDetailContainerFragment"
+            android:id="@+id/action_listPerformers_to_detailPerformer"
+            app:destination="@id/performerDetailContainerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/performerDetailContainerFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.performer.PerformerDetailContainerFragment"
+        android:label="Artist Name"
+        tools:layout="@layout/performer_detail_container"/>
+
+    <!-- If PerformerDetailFragment is inside PerformerDetailContainerFragment, make sure it's dynamically loaded here -->
 </navigation>

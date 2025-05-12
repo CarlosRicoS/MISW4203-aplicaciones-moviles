@@ -1,7 +1,6 @@
 package co.edu.uniandes.miso.vinilos
 
 
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -61,39 +60,35 @@ class ListAlbumTest {
         albumToValidate.check(matches(isDisplayed()))
     }
 
-    private fun getListAlbumItem(albumTitle:String, albumAuthor:String): ViewInteraction = onView(
+    private fun getListAlbumItem(albumTitle: String, albumAuthor: String): ViewInteraction = onView(
         allOf(
-            IsInstanceOf.instanceOf(FrameLayout::class.java),
+            IsInstanceOf.instanceOf(LinearLayout::class.java),
+            withChild(
+                allOf(
+                    IsInstanceOf.instanceOf(ImageView::class.java),
+                    withId(R.id.album_cover)
+                )
+            ),
             withChild(
                 allOf(
                     IsInstanceOf.instanceOf(LinearLayout::class.java),
                     withChild(
                         allOf(
-                            IsInstanceOf.instanceOf(ImageView::class.java),
-                            withId(R.id.album_cover)
+                            IsInstanceOf.instanceOf(TextView::class.java),
+                            withId(R.id.album_title),
+                            withText(albumTitle)
                         )
                     ),
                     withChild(
                         allOf(
-                            IsInstanceOf.instanceOf(LinearLayout::class.java),
-                            withChild(
-                                allOf(
-                                    IsInstanceOf.instanceOf(TextView::class.java),
-                                    withId(R.id.album_title),
-                                    withText(albumTitle)
-                                )
-                            ),
-                            withChild(
-                                allOf(
-                                    IsInstanceOf.instanceOf(TextView::class.java),
-                                    withId(R.id.album_description),
-                                    withText(albumAuthor)
-                                )
-                            )
+                            IsInstanceOf.instanceOf(TextView::class.java),
+                            withId(R.id.album_description),
+                            withText(albumAuthor)
                         )
                     )
                 )
             )
+
         )
     )
 }

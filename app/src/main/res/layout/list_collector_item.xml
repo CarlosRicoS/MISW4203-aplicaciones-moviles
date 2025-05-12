@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="collector"
+            type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="24dp">
+
+        <!-- Album cover image -->
+        <ImageView
+            android:id="@+id/collector_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            android:src="@drawable/collector_icon" />
+
+        <!-- Text container -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/collector_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{collector.name}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/collector_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{collector.email}"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

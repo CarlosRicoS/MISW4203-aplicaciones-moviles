@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/performer_detail_container_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.performer.PerformerDetailContainerFragment">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/performer_detail_fragment_container"
+        android:name="co.edu.uniandes.miso.vinilos.view.performer.PerformerDetailFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="PerformerDetail"
+        tools:layout="@layout/performer_detail" />
+
+    <ProgressBar
+        android:id="@+id/performer_detail_progress_bar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>
