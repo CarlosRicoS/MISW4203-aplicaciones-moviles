@@ -33,7 +33,7 @@ class ListPerformersViewModel @Inject constructor(
             try {
                 _isLoading.value = true
                 _errorMessage.value = null
-                val performersList = performersRepository.getVinylsMusicians()
+                val performersList = performersRepository.getSimplifiedMusicians()
                 _performers.value = performersList.sortedBy { it.name }
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"

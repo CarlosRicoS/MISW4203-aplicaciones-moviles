@@ -62,13 +62,8 @@ interface AlbumDAO {
     fun getPerformerById(albumId: Int): List<Performer>
 
     @Transaction
-    suspend fun getAllAlbums(): List<List<Any>> {
-        return listOf(
-            getAlbums(),
-            getPerformers(),
-            getComments(),
-            getTracks()
-        )
+    suspend fun getAllAlbums(): List<Album> {
+        return getAlbums()
     }
 
     @Transaction

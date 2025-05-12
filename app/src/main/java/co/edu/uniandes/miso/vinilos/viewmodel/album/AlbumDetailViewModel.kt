@@ -31,7 +31,7 @@ class AlbumDetailViewModel @Inject constructor(
     fun loadAlbumDetail(albumId: Int) {
         viewModelScope.launch {
             try {
-                val albumDetail = albumsRepository.getVinylsAlbumById(albumId)
+                val albumDetail = albumsRepository.getDetailedAlbumById(albumId)
                 _album.value = albumDetail
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
