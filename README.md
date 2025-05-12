@@ -2,6 +2,8 @@
 
 ## Construcción de la APK
 
+**IMPORTANTE: Si ya habías instalado la aplicación anteriormente, por favor desinstálala antes de seguir con estos pasos.**
+
 **IMPORTANTE: Los siguientes pasos son compatibles con arquitecturas x64/i386, arquitecturas ARM no son compatibles.**
 
 ### Descripción de variables de entorno
