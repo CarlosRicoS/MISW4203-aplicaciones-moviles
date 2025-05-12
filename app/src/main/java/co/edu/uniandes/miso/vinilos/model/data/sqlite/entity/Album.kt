@@ -14,4 +14,5 @@ data class Album (
     @ColumnInfo(name = "genre") val genre: String,
     @ColumnInfo(name = "recordLabel") val recordLabel: String,
     @ColumnInfo(name = "performer") val performerId: Int,
+    @ColumnInfo(name = "author") val author: String
 )

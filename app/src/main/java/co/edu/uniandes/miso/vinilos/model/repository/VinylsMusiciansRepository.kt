@@ -12,10 +12,15 @@ import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedPerformer
 import co.edu.uniandes.miso.vinilos.model.mapper.PerformerMapper
+import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 import javax.inject.Inject
+
+private const val DELAY_IN_MILLIS = 1000 * 60 * 10
+private const val EXPIRATION_MUSICIANS_DATA_VALUE = "EXPIRATION_MUSICIANS_DATA_VALUE"
 
 class VinylsMusiciansRepository @Inject constructor(
     private val vinylsDatabase: VinylRoomDatabase,
@@ -24,11 +29,31 @@ class VinylsMusiciansRepository @Inject constructor(
     private val vinylsApiService: VinylsApiService = VinylsServiceAdapter.instance.vinylsService
 
     @RequiresApi(Build.VERSION_CODES.M)
-    suspend fun getVinylsMusicians(): List<SimplifiedPerformer> {
+    suspend fun getSimplifiedMusicians(): List<SimplifiedPerformer> {
 
         return withContext(Dispatchers.IO) {
-            if(NetworkValidation.isNetworkAvailable(context))
-            getVinylsPerformersFromService() else getVinylsPerformersFromLocalStorage()
+
+
+            val dateInMillis = Date().time
+            val expirationDate = VinylsDataStore.readLongProperty(context, EXPIRATION_MUSICIANS_DATA_VALUE)
+            val musiciansToReturn: List<SimplifiedPerformer>
+            if (dateInMillis < expirationDate) {
+
+                musiciansToReturn = getVinylsPerformersFromLocalStorage()
+            } else {
+
+                if(NetworkValidation.isNetworkAvailable(context)) {
+
+                    musiciansToReturn = getVinylsPerformersFromService()
+                    VinylsDataStore.writeLongProperty(context, EXPIRATION_MUSICIANS_DATA_VALUE, dateInMillis + (DELAY_IN_MILLIS))
+                }
+                else
+                {
+                    musiciansToReturn = getVinylsPerformersFromLocalStorage()
+                }
+            }
+
+            musiciansToReturn
         }
     }
 

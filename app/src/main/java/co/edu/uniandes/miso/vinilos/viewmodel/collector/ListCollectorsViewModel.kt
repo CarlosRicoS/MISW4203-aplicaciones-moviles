@@ -33,7 +33,7 @@ class ListCollectorsViewModel @Inject constructor(
             try {
                 _isLoading.value = true
                 _errorMessage.value = null
-                val collectorData = collectorRepository.getSimplifiedVinylsCollectors()
+                val collectorData = collectorRepository.getSimplifiedCollectors()
                 _collectors.value = collectorData.sortedBy { it.name }
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"

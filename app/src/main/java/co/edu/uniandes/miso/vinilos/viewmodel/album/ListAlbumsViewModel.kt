@@ -34,7 +34,7 @@ class ListAlbumsViewModel @Inject constructor(
                 _isLoading.value = true
                 _errorMessage.value = null
                 
-                val albumsList = albumsRepository.getSimplifiedVinylsAlbums()
+                val albumsList = albumsRepository.getSimplifiedAlbums()
                 _albums.value = albumsList.sortedBy { it.name }
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"

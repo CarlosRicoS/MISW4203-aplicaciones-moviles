@@ -2,8 +2,6 @@ package co.edu.uniandes.miso.vinilos.model.mapper
 
 import android.os.Build
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CommentDTO
-import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Album
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
@@ -77,49 +75,15 @@ class AlbumMapper {
             return albumDTOs.map { fromRestDtoToDetailAlbum(it) }
         }
 
-        fun fromAlbumListEntityToDTO(
-            albums: List<Album>,
-            performers: List<Performer>,
-            comments: List<Comment>,
-            tracks: List<Track>
-        ): List<AlbumDTO> {
-            return albums.fold(mutableListOf<AlbumDTO>()) { acc, album ->
-                var albumTrandformed = AlbumDTO(
+        fun fromAlbumListEntityToDTO(albums: List<Album>): List<SimplifiedAlbum> {
+            return albums.fold(mutableListOf()) { acc, album ->
+                val albumTransformed = SimplifiedAlbum(
                     id = album.id,
                     name = album.name,
                     cover = album.cover,
-                    releaseDate = album.releaseDate,
-                    description = album.description,
-                    genre = album.genre,
-                    recordLabel = album.recordLabel,
-                    performers = performers.filter { performer -> performer.id == album.id }
-                        .map { performer ->
-                            PerformerDTO(
-                                id = performer.id,
-                                name = performer.name,
-                                image = performer.image,
-                                description = performer.description,
-                                albums = listOf()
-                            )
-                        },
-                    tracks = tracks.filter { track -> track.albumId == album.id }
-                        .map { track ->
-                            co.edu.uniandes.miso.vinilos.model.data.rest.dto.Track(
-                                id = track.id,
-                                name = track.name,
-                                duration = track.duration,
-                            )
-                        },
-                    comments = comments.filter { comment -> comment.albumId == album.id }
-                        .map { comment ->
-                            CommentDTO(
-                                id = comment.id,
-                                description = comment.description,
-                                rating = comment.rating
-                            )
-                        }
+                    author = album.author,
                 )
-                acc.add(albumTrandformed)
+                acc.add(albumTransformed)
                 acc
             }
         }
@@ -183,7 +147,8 @@ class AlbumMapper {
                     description = album.description,
                     genre = album.genre,
                     recordLabel = album.recordLabel,
-                    performerId = album.performers[0].id
+                    performerId = album.performers[0].id,
+                    author = album.performers[0].name
                 )
             }
 
