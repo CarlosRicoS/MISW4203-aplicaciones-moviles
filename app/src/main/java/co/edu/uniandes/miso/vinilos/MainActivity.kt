@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.edu.uniandes.miso.vinilos.databinding.ActivityMainBinding
+import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
 import co.edu.uniandes.miso.vinilos.view.DrawerItem
 import co.edu.uniandes.miso.vinilos.view.adapters.DrawerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
     private val topLevelDestinations = setOf(
         R.id.albumsListFragment,
         R.id.collectorsListFragment,
-        R.id.performerListFragment
+        R.id.performerListFragment,
+        R.id.userSelectionFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +82,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupDrawer() {
         binding.drawerRecyclerView.layoutManager = LinearLayoutManager(this)
+        updateNavigationOptions()
+    }
+
+    fun updateNavigationOptions() {
+
         binding.drawerRecyclerView.adapter = DrawerAdapter(getDrawerItems()) { destinationId ->
             binding.drawerLayout.postDelayed({
                 binding.drawerLayout.closeDrawers()
@@ -103,25 +110,36 @@ class MainActivity : AppCompatActivity() {
             navController.currentDestination?.id in topLevelDestinations
     }
 
-    private fun getDrawerItems(): List<DrawerItem> = listOf(
-        DrawerItem.MenuItem(
-            R.id.albumsListFragment,
-            R.drawable.music_note_24dp,
-            getString(R.string.albums_menu_title)
-        ),
-        DrawerItem.Divider,
-        DrawerItem.MenuItem(
-            R.id.collectorsListFragment,
-            R.drawable.person_24dp,
-            getString(R.string.collectors_menu_title)
-        ),
-        DrawerItem.Divider,
-        DrawerItem.MenuItem(
-            R.id.performerListFragment,
-            R.drawable.artist_24dp,
-            getString(R.string.performer_menu_title)
+    private fun getDrawerItems(): List<DrawerItem> {
+
+        val currentUser = VinylsDataStore.readLongProperty(applicationContext, "APP_USER_ID")
+        //TODO construir lista de opciones que solo puede acceder un coleccionista
+        return listOf(
+            DrawerItem.MenuItem(
+                R.id.albumsListFragment,
+                R.drawable.music_note_24dp,
+                getString(R.string.albums_menu_title)
+            ),
+            DrawerItem.Divider,
+            DrawerItem.MenuItem(
+                R.id.collectorsListFragment,
+                R.drawable.person_24dp,
+                getString(R.string.collectors_menu_title)
+            ),
+            DrawerItem.Divider,
+            DrawerItem.MenuItem(
+                R.id.performerListFragment,
+                R.drawable.artist_24dp,
+                getString(R.string.performer_menu_title)
+            ),
+            DrawerItem.Divider,
+            DrawerItem.MenuItem(
+                R.id.userSelectionFragment,
+                R.drawable.person_24dp,
+                getString(R.string.user_selection_menu_title)
+            )
         )
-    )
+    }
 
     private fun clearSearchTextBox(actionId: Int): Boolean {
         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {

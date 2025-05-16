@@ -1,4 +1,4 @@
-package co.edu.uniandes.miso.vinilos.view.collector
+package co.edu.uniandes.miso.vinilos.view.userselection
 
 import android.os.Build
 import android.os.Bundle
@@ -9,21 +9,23 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.edu.uniandes.miso.vinilos.MainActivity
+import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListCollectorsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListCollectorsAdapter
-import co.edu.uniandes.miso.vinilos.viewmodel.collector.ListCollectorsViewModel
+import co.edu.uniandes.miso.vinilos.viewmodel.userselection.UserSelectionListCollectorsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListCollectorsFragment : Fragment() {
+class UserSelectionListCollectorsFragment : Fragment() {
     private var _binding: FragmentListCollectorsBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: ListCollectorsViewModel by viewModels()
+    private val viewModel: UserSelectionListCollectorsViewModel by viewModels()
     private var viewModelAdapter: ListCollectorsAdapter? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +34,12 @@ class ListCollectorsFragment : Fragment() {
         _binding = FragmentListCollectorsBinding.inflate(inflater, container, false)
         viewModelAdapter = ListCollectorsAdapter(){ collector ->
 
-            val bundle = Bundle().apply {
-                putInt("collectorId", collector.id)
-                putString("collectorName", collector.name)
-            }
-            //findNavController().navigate(R.id.albumDetailFragment, bundle)
+            viewModel.setCollectorAsAppUser(collector)
+            val toast = Toast.makeText(context, "¡Ahora eres un usuario coleccionista!", Toast.LENGTH_SHORT) // in Activity
+            toast.show()
+            val mainActivity: MainActivity = activity as MainActivity
+            mainActivity.updateNavigationOptions()
+            findNavController().navigate(R.id.albumsListFragment, savedInstanceState)
         }
         return binding.root
     }

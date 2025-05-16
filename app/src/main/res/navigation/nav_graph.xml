@@ -46,5 +46,23 @@
         android:label="Artist Name"
         tools:layout="@layout/performer_detail_container"/>
 
+    <fragment
+        android:id="@+id/userSelectionFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.userselection.UserSelectionFragment"
+        android:label="@string/user_selection_fragment_title"
+        tools:layout="@layout/fragment_user_selection">
+        <action
+            android:name="co.edu.uniandes.miso.vinilos.view.userselection.UserSelectionListCollectorsFragment"
+            android:id="@+id/action_user_selection_to_collectors"
+            app:destination="@id/userSelectionCollectorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userSelectionCollectorFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.userselection.UserSelectionListCollectorsFragment"
+        android:label="@string/user_selection_collector_fragment_title"
+        tools:layout="@layout/fragment_list_user_selection_collectors">
+    </fragment>
+
     <!-- If PerformerDetailFragment is inside PerformerDetailContainerFragment, make sure it's dynamically loaded here -->
 </navigation>

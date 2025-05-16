@@ -11,7 +11,7 @@ import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector
 import java.lang.ref.WeakReference
 
 class ListCollectorsAdapter(
-    private val onCollectorClick: (Int, String) -> Unit
+    private val onCollectorClick: (SimplifiedCollector) -> Unit
 ) : RecyclerView.Adapter<ListCollectorsAdapter.ListCollectorsViewHolder>() {
 
     private var collectors: WeakReference<List<SimplifiedCollector>> = WeakReference(emptyList())
@@ -31,7 +31,7 @@ class ListCollectorsAdapter(
             it.collector = getCollectors()[position]
         }
         holder.viewDataBinding.root.setOnClickListener {
-            onCollectorClick(getCollectors()[position].id, getCollectors()[position].name)
+            onCollectorClick(getCollectors()[position])
         }
     }
 
