@@ -1,7 +1,6 @@
 package co.edu.uniandes.miso.vinilos
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -114,7 +113,6 @@ class MainActivity : AppCompatActivity() {
     private fun getDrawerItems(): List<DrawerItem> {
 
         val currentUser = VinylsDataStore.readLongProperty(applicationContext, "APP_USER_ID")
-        Log.i("MainActivity", "Current User: "+currentUser)
         //TODO construir lista de opciones que solo puede acceder un coleccionista
         return listOf(
             DrawerItem.MenuItem(
