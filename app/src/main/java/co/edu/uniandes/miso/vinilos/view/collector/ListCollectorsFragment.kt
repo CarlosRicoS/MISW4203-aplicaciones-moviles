@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListCollectorsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.ListCollectorsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.collector.ListCollectorsViewModel
@@ -36,7 +38,7 @@ class ListCollectorsFragment : Fragment() {
                 putInt("collectorId", collector.id)
                 putString("collectorName", collector.name)
             }
-            //findNavController().navigate(R.id.albumDetailFragment, bundle)
+            findNavController().navigate(R.id.collectorDetailFragment, bundle)
         }
         return binding.root
     }

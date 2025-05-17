@@ -8,6 +8,7 @@ import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.NetworkValida
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsApiService
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsServiceAdapter
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.VinylRoomDatabase
+import co.edu.uniandes.miso.vinilos.model.domain.DetailCollector
 import co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector
 import co.edu.uniandes.miso.vinilos.model.mapper.CollectorMapper
 import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
@@ -64,5 +65,17 @@ class VinylsCollectorsRepository @Inject constructor(
     private suspend fun updateCollectorLocalStorage(collectors: List<CollectorDTO>) {
         vinylsDatabase.collectorsDao().deleteAll()
         vinylsDatabase.collectorsDao().insert(CollectorMapper.fromRestDtoListToCollectorsEntity(collectors))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    suspend fun getDetailedCollectorById(collectorId: Int): DetailCollector {
+        val collector = getSimplifiedCollectors().filter { collector -> collector.id == collectorId }[0]
+        return  DetailCollector (
+            id = collectorId,
+            name = collector.name,
+            email = collector.email,
+            phone = "1234567",
+            photoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Ruben_Blades_by_Gage_Skidmore.jpg/800px-Ruben_Blades_by_Gage_Skidmore.jpg"
+        )
     }
 }
