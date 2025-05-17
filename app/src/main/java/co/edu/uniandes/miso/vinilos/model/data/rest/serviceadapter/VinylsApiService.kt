@@ -1,6 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter
 
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CollectorAlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CollectorDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import retrofit2.http.GET
@@ -27,4 +28,10 @@ interface VinylsApiService {
 
     @GET("collectors")
     suspend fun getCollectors(): List<CollectorDTO>
+
+    @GET("collectors/{id}/performers")
+    suspend fun getCollectorFavoritePerformers(@Path("id") id: Int): List<PerformerDTO>
+
+    @GET("collectors/{id}/albums")
+    suspend fun getCollectorAlbums(@Path("id") id: Int): List<CollectorAlbumDTO>
 }
