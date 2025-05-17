@@ -48,7 +48,7 @@ abstract class VinylRoomDatabase : RoomDatabase() {
                     VinylRoomDatabase::class.java,
                     databaseName
                 )
-                .fallbackToDestructiveMigration() // Handle version upgrades by recreating the database
+                .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance
                 instance

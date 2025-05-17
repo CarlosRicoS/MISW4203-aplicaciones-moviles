@@ -21,7 +21,6 @@ interface CollectorsDAO {
     @Query("DELETE FROM collector")
     suspend fun deleteAll()
     
-    // Favorite performers methods
     @Query("SELECT * FROM collector_favorite_performer WHERE collectorId = :collectorId")
     fun getCollectorFavoritePerformers(collectorId: Int): List<CollectorFavoritePerformer>
     
@@ -34,7 +33,6 @@ interface CollectorsDAO {
     @Query("SELECT performerId FROM collector_favorite_performer WHERE collectorId = :collectorId")
     fun getCollectorFavoritePerformerIds(collectorId: Int): List<Int>
     
-    // Album collection methods
     @Query("SELECT * FROM collector_album WHERE collectorId = :collectorId")
     fun getCollectorAlbums(collectorId: Int): List<CollectorAlbum>
     
@@ -47,7 +45,6 @@ interface CollectorsDAO {
     @Query("SELECT albumId FROM collector_album WHERE collectorId = :collectorId")
     fun getCollectorAlbumIds(collectorId: Int): List<Int>
     
-    // Transaction to replace all collector data
     @Transaction
     suspend fun replaceCollectorFavoritePerformers(collectorId: Int, favoritePerformers: List<CollectorFavoritePerformer>) {
         deleteCollectorFavoritePerformers(collectorId)
