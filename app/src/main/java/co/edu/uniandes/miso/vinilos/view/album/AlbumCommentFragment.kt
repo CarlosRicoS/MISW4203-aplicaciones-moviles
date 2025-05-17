@@ -1,13 +1,16 @@
 package co.edu.uniandes.miso.vinilos.view.album
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.AlbumDetailCommentsBinding
 import co.edu.uniandes.miso.vinilos.view.adapters.CommentAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.AlbumDetailViewModel
@@ -39,6 +42,14 @@ class AlbumCommentFragment : Fragment() {
 
         viewModel.comments.observe(viewLifecycleOwner) { comments ->
             viewModelAdapter?.comments = comments
+        }
+
+        val dropdown = binding.dropdown
+        val options = resources.getStringArray(R.array.album_score_dropdown_options)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, options)
+        dropdown.setAdapter(adapter)
+        dropdown.setOnClickListener {
+            dropdown.showDropDown()
         }
     }
 

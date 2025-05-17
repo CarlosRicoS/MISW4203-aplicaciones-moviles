@@ -22,4 +22,11 @@
     <string name="user_selection_collector_fragment_title">Selecciona un coleccionista</string>
     <string name="collector_detail_performers_title">Artistas favoritos</string>
     <string name="collector_detail_collection_title">Colección</string>
+    <string-array name="album_score_dropdown_options">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>
