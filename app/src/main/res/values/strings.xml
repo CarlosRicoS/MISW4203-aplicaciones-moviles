@@ -20,4 +20,6 @@
     <string name="collector">Coleccionista</string>
     <string name="user_selection_fragment_title">Selección de usuario</string>
     <string name="user_selection_collector_fragment_title">Selecciona un coleccionista</string>
+    <string name="collector_detail_performers_title">Artistas favoritos</string>
+    <string name="collector_detail_collection_title">Colección</string>
 </resources>

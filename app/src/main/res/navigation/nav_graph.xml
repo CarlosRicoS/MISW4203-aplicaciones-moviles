@@ -27,7 +27,12 @@
         android:id="@+id/collectorsListFragment"
         android:name="co.edu.uniandes.miso.vinilos.view.collector.ListCollectorsFragment"
         android:label="@string/collectors_menu_title"
-        tools:layout="@layout/fragment_list_collectors"/>
+        tools:layout="@layout/fragment_list_collectors">
+        <action
+            android:name="co.edu.uniandes.miso.vinilos.view.collector.CollectorDetailFragment"
+            android:id="@+id/action_listCollectors_to_detailCollector"
+            app:destination="@id/collectorDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/performerListFragment"
@@ -62,6 +67,13 @@
         android:name="co.edu.uniandes.miso.vinilos.view.userselection.UserSelectionListCollectorsFragment"
         android:label="@string/user_selection_collector_fragment_title"
         tools:layout="@layout/fragment_list_user_selection_collectors">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectorDetailFragment"
+        android:name="co.edu.uniandes.miso.vinilos.view.collector.CollectorDetailFragment"
+        tools:layout="@layout/fragment_collector_detail">
     </fragment>
 
     <!-- If PerformerDetailFragment is inside PerformerDetailContainerFragment, make sure it's dynamically loaded here -->
