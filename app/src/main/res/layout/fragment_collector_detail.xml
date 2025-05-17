@@ -67,18 +67,25 @@
                 android:textSize="24sp"
                 android:text="@string/collector_detail_performers_title"/>
             
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/performersRecyclerView"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/performer_carousel_item"
-                tools:itemCount="3"/>
+                android:layout_marginTop="8dp">
+                
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/performersRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/performer_carousel_item"
+                    tools:itemCount="3"/>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/collectionSection"
@@ -90,18 +97,25 @@
                 android:textSize="24sp"
                 android:text="@string/collector_detail_collection_title"/>
             
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/albumsRecyclerView"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/album_carousel_item"
-                tools:itemCount="3"/>
+                android:layout_marginTop="8dp">
+                
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/albumsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/album_carousel_item"
+                    tools:itemCount="3"/>
+            </FrameLayout>
             
             <ProgressBar
                 android:id="@+id/collectorDetailProgressBar"

@@ -16,14 +16,15 @@
         android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp">
+        android:paddingVertical="8dp"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/performer_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
-            android:contentDescription=""
+            android:contentDescription="@string/performer_menu_title"
             android:scaleType="centerCrop"
             app:imageUrl="@{performer.image}" />
 

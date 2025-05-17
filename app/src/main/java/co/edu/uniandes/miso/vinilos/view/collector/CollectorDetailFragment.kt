@@ -63,14 +63,52 @@ class CollectorDetailFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         performersRecyclerView = binding.performersRecyclerView
-        performersRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        
+        val performersLayoutManager = object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
+            override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+                super.onLayoutChildren(recycler, state)
+                
+                if (itemCount == 1 && childCount == 1) {
+                    val view = getChildAt(0) ?: return
+                    val width = width
+                    val decoratedViewWidth = getDecoratedMeasuredWidth(view)
+                    val leftMargin = (width - decoratedViewWidth) / 2
+                    
+                    view.layoutParams = (view.layoutParams as RecyclerView.LayoutParams).apply {
+                        marginStart = leftMargin
+                        marginEnd = leftMargin
+                    }
+                }
+            }
+        }
+        
+        performersRecyclerView.layoutManager = performersLayoutManager
         performerAdapter = PerformerCarouselAdapter { performerId, performerName, performerImage, performerType ->
             navigateToPerformerDetail(performerId, performerName, performerImage, performerType)
         }
         performersRecyclerView.adapter = performerAdapter
 
         albumsRecyclerView = binding.albumsRecyclerView
-        albumsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        
+        val albumsLayoutManager = object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
+            override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+                super.onLayoutChildren(recycler, state)
+                
+                if (itemCount == 1 && childCount == 1) {
+                    val view = getChildAt(0) ?: return
+                    val width = width
+                    val decoratedViewWidth = getDecoratedMeasuredWidth(view)
+                    val leftMargin = (width - decoratedViewWidth) / 2
+                    
+                    view.layoutParams = (view.layoutParams as RecyclerView.LayoutParams).apply {
+                        marginStart = leftMargin
+                        marginEnd = leftMargin
+                    }
+                }
+            }
+        }
+        
+        albumsRecyclerView.layoutManager = albumsLayoutManager
         albumAdapter = AlbumCarouselAdapter { albumId, albumName, albumCover ->
             navigateToAlbumDetail(albumId, albumName, albumCover)
         }
