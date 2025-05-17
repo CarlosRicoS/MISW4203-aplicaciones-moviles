@@ -1,94 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="collector"
             type="co.edu.uniandes.miso.vinilos.model.domain.DetailCollector" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="16dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-        <ImageView
-            android:id="@+id/album_cover"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{collector.photoUrl}"/>
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="@{collector.name}"/>
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            app:underlinedText="@{collector.email}"/>
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:text="@{collector.phone}"/>
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/performersSection"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:text="@string/collector_detail_performers_title"/>
-        <ImageView
-            android:id="@+id/performers"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{collector.phone}"/>
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            
+            <ImageView
+                android:id="@+id/collector_photo"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="6dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{collector.photoUrl}"/>
+            
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@{collector.name}"/>
+            
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:underlinedText="@{collector.email}"/>
+            
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="@{collector.phone}"/>
 
-        <TextView
-            android:id="@+id/collectionSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:text="@string/collector_detail_collection_title"/>
-        <ImageView
-            android:id="@+id/collection"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{collector.phone}"/>
-        <ProgressBar
-            android:id="@+id/collectorDetailProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/performersSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:text="@string/collector_detail_performers_title"/>
+            
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/performersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/performer_carousel_item"
+                tools:itemCount="3"/>
 
+            <TextView
+                android:id="@+id/collectionSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:text="@string/collector_detail_collection_title"/>
+            
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/albumsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/album_carousel_item"
+                tools:itemCount="3"/>
+            
+            <ProgressBar
+                android:id="@+id/collectorDetailProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 </layout>
 

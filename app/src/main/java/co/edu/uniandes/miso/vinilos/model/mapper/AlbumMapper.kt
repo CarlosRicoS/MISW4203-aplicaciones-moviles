@@ -58,6 +58,9 @@ class AlbumMapper {
                 description = albumDTO.description,
                 genre = albumDTO.genre,
                 recordLabel = albumDTO.recordLabel,
+                performer = if (albumDTO.performers.isNotEmpty()) {
+                    PerformerMapper.fromRestDtoToSimplifiedPerformer(albumDTO.performers[0])
+                } else null
             )
         }
 

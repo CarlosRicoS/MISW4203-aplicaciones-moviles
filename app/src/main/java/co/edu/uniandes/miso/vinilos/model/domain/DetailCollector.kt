@@ -6,4 +6,6 @@ data class DetailCollector (
     val email: String,
     val phone: String,
     val photoUrl: String,
+    val favoritePerformers: List<SimplifiedPerformer> = emptyList(),
+    val collectedAlbums: List<SimplifiedAlbum> = emptyList()
 )

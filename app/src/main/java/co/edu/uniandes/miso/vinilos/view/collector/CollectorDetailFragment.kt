@@ -16,7 +16,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentCollectorDetailBinding
+import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
+import co.edu.uniandes.miso.vinilos.view.adapters.AlbumCarouselAdapter
+import co.edu.uniandes.miso.vinilos.view.adapters.PerformerCarouselAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.collector.CollectorDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +34,10 @@ class CollectorDetailFragment : Fragment() {
     private var _binding: FragmentCollectorDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var progressBar: ProgressBar
+    private lateinit var performersRecyclerView: RecyclerView
+    private lateinit var albumsRecyclerView: RecyclerView
+    private lateinit var performerAdapter: PerformerCarouselAdapter
+    private lateinit var albumAdapter: AlbumCarouselAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +51,49 @@ class CollectorDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerViews()
         setupObservers()
 
+        progressBar = binding.collectorDetailProgressBar
+        
         val collectorId = arguments?.getInt("collectorId") ?: -1
         Log.d("CollectorDetailFragment", "Collector ID: $collectorId")
         loadData(collectorId)
+    }
 
-        progressBar = binding.collectorDetailProgressBar
-        progressBar.visibility = View.VISIBLE
+    private fun setupRecyclerViews() {
+        performersRecyclerView = binding.performersRecyclerView
+        performersRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        performerAdapter = PerformerCarouselAdapter { performerId, performerName, performerImage, performerType ->
+            navigateToPerformerDetail(performerId, performerName, performerImage, performerType)
+        }
+        performersRecyclerView.adapter = performerAdapter
+
+        albumsRecyclerView = binding.albumsRecyclerView
+        albumsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        albumAdapter = AlbumCarouselAdapter { albumId, albumName, albumCover ->
+            navigateToAlbumDetail(albumId, albumName, albumCover)
+        }
+        albumsRecyclerView.adapter = albumAdapter
+    }
+
+    private fun navigateToPerformerDetail(performerId: Int, performerName: String, performerImage: String, performerType: PerformerType) {
+        val bundle = Bundle().apply {
+            putInt("performerId", performerId)
+            putString("performerName", performerName)
+            putString("performerImage", performerImage)
+            putString("performerType", performerType.toString())
+        }
+        findNavController().navigate(R.id.performerDetailContainerFragment, bundle)
+    }
+
+    private fun navigateToAlbumDetail(albumId: Int, albumName: String, albumCover: String) {
+        val bundle = Bundle().apply {
+            putInt("albumId", albumId)
+            putString("albumName", albumName)
+            putString("albumCover", albumCover)
+        }
+        findNavController().navigate(R.id.albumDetailFragment, bundle)
     }
 
     override fun onDestroyView() {
@@ -59,8 +105,15 @@ class CollectorDetailFragment : Fragment() {
         collectorDetailViewModel.collector.observe(viewLifecycleOwner) { collector ->
             binding.collector = collector
             (activity as? AppCompatActivity)?.supportActionBar?.title = collector.name
-            progressBar.visibility = View.GONE
+            
+            performerAdapter.setPerformers(collector.favoritePerformers)
+            albumAdapter.setAlbums(collector.collectedAlbums)
         }
+        
+        collectorDetailViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        
         collectorDetailViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
             errorMsg?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()

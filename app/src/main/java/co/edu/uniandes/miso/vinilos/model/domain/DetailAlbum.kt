@@ -8,4 +8,5 @@ data class DetailAlbum(
     val description: String,
     val genre: String,
     val recordLabel: String,
+    val performer: SimplifiedPerformer? = null
 )
