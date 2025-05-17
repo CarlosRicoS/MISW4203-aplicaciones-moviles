@@ -18,12 +18,12 @@
         android:orientation="horizontal"
         android:padding="24dp">
 
-        <!-- Album cover image -->
+        <!-- Performer photo -->
         <ImageView
             android:id="@+id/performer_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:contentDescription=""
+            android:contentDescription="@null"
             android:scaleType="centerCrop"
             app:imageUrl="@{performer.image}" />
 
