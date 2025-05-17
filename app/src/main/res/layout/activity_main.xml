@@ -74,7 +74,7 @@
     <!-- Navigation Drawer -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/drawerRecyclerView"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?android:attr/colorBackground"

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="menuItemBackground">#FFFFFF</color>
+    <color name="iconTint">#000000</color>
+    <color name="textForeground">#000000</color>
 </resources>
