@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="collector"
             type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedCollector" />
@@ -24,7 +24,8 @@
             android:layout_height="64dp"
             android:contentDescription=""
             android:scaleType="centerCrop"
-            android:src="@drawable/collector_icon" />
+            android:src="@drawable/collector_icon"
+            app:tint="@color/iconTint"/>
 
         <!-- Text container -->
         <LinearLayout
@@ -40,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{collector.name}"
-                android:textColor="@android:color/black"
+                android:textColor="@color/mainTextColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -49,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{collector.email}"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="14sp" />
         </LinearLayout>
 
