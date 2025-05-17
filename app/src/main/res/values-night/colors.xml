@@ -2,5 +2,6 @@
 <resources>
     <color name="menuItemBackground">#000000</color>
     <color name="iconTint">#FFFFFF</color>
-    <color name="textForeground">#FFFFFF</color>
+    <color name="mainTextColor">#FFFFFF</color>
+    <color name="secondaryTextColor">#AAAAAA</color>
 </resources>

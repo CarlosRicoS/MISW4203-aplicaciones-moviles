@@ -22,7 +22,8 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 android:paddingBottom="0dp"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:title="My App" />
@@ -45,13 +46,13 @@
                     app:boxCornerRadiusBottomEnd="24dp"
                     app:boxCornerRadiusBottomStart="24dp"
                     app:boxCornerRadiusTopEnd="24dp"
-                    app:boxCornerRadiusTopStart="24dp"
-                    app:startIconDrawable="@drawable/search_24dp">
+                    app:boxCornerRadiusTopStart="24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/search_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:paddingTop="8dp"

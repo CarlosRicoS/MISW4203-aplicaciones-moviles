@@ -1,5 +1,6 @@
 package co.edu.uniandes.miso.vinilos
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private var actionFilter: MenuItem? = null
     private var isSearchInputVisible = false
-    private var currentMenu: Menu? = null
 
     private val topLevelDestinations = setOf(
         R.id.albumsListFragment,
@@ -46,9 +49,13 @@ class MainActivity : AppCompatActivity() {
         setupSearchInput()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        currentMenu = menu
+        actionFilter = menu.findItem(R.id.action_filter)
+        actionFilter?.contentDescription = getString(R.string.toolbar_search_text)
+        val icon = actionFilter?.icon
+        icon?.mutate()?.setTint(ContextCompat.getColor(this, R.color.iconTint))
         updateFilterVisibility()
         return true
     }
@@ -59,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 toggleSearchBar()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -106,13 +114,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateFilterVisibility() {
-        currentMenu?.findItem(R.id.action_filter)?.isVisible =
+        actionFilter?.isVisible =
             navController.currentDestination?.id in topLevelDestinations
     }
 
     private fun getDrawerItems(): List<DrawerItem> {
-
-        val currentUser = VinylsDataStore.readLongProperty(applicationContext, "APP_USER_ID")
+        // val currentUser = VinylsDataStore.readLongProperty(applicationContext, "APP_USER_ID")
         //TODO construir lista de opciones que solo puede acceder un coleccionista
         return listOf(
             DrawerItem.MenuItem(
