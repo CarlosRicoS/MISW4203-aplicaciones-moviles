@@ -22,4 +22,7 @@ interface PerformerDAO {
 
     @Query("UPDATE performer SET type = :type WHERE id = :id")
     suspend fun updatePerformerType(id: Int, type: String)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(albums: List<Performer>)
 }

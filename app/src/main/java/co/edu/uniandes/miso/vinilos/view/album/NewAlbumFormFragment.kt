@@ -1,5 +1,6 @@
 package co.edu.uniandes.miso.vinilos.view.album
 
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,8 +19,10 @@ import co.edu.uniandes.miso.vinilos.viewmodel.album.NewAlbumViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import android.widget.ArrayAdapter
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NewAlbumFormFragment : Fragment(), ToolbarActionHandler {
@@ -72,7 +75,7 @@ class NewAlbumFormFragment : Fragment(), ToolbarActionHandler {
             progressBar.visibility = View.GONE
         }
         newAlbumViewModel.existingPerformers.observe(viewLifecycleOwner) { performers ->
-            setUpSelector(binding.performer, performers, "performer")
+            setUpSelectorForPerformerOptions(binding.performer, performers, "performer")
             progressBar.visibility = View.GONE
         }
         newAlbumViewModel.errorMessage.observe(viewLifecycleOwner) { errorMsg ->
@@ -111,20 +114,107 @@ class NewAlbumFormFragment : Fragment(), ToolbarActionHandler {
 
         dropdownView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem = items[position]
-            newAlbumResult[propertyName] = if (propertyName.equals("performer")) selectedItem.id else selectedItem.label
+            newAlbumResult[propertyName] = selectedItem.label
+        }
+    }
+
+    private fun setUpSelectorForPerformerOptions(dropdownView: MaterialAutoCompleteTextView,
+                              items: List<NewAlbumViewModel.PerformerOption>, propertyName: String)
+    {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            items.map { item -> item.label }
+        )
+
+        dropdownView.setAdapter(adapter)
+
+        dropdownView.keyListener = null
+
+        dropdownView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem = items[position]
+            newAlbumResult[propertyName] = mapOf(Pair("id", selectedItem.id), Pair("type", selectedItem.type)  )
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onToolbarAction(): Boolean {
-        //@TODO: Add validation
+
         newAlbumResult["name"] = binding.name.text.toString()
         newAlbumResult["cover"] = binding.cover.text.toString()
         newAlbumResult["releaseDate"] = binding.releaseDate.text.toString()
         newAlbumResult["description"] = binding.description.text.toString()
-        newAlbumViewModel.saveNewAlbum(newAlbumResult)
-        Toast.makeText(context, "Agregado", Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-        return true
+
+        return if(isFormValid()) {
+
+            lifecycleScope.launch {
+
+                newAlbumViewModel.saveNewAlbum(newAlbumResult)
+                findNavController().navigate(R.id.albumsListFragment, null)
+                Toast.makeText(context, "Agregado", Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+        else
+        {
+            false
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isFormValid(): Boolean {
+
+        var valid = true
+        val name = newAlbumResult["name"].toString()
+        val cover = newAlbumResult["cover"].toString()
+        val releaseDate = newAlbumResult["releaseDate"].toString()
+        val description = newAlbumResult["description"].toString()
+        val genre = newAlbumResult["genre"]
+        val recordLabel = newAlbumResult["recordLabel"]
+        val performer = newAlbumResult["performer"]
+
+        if(name.isBlank()){
+
+            binding.name.error = getString(R.string.new_album_name_required)
+            valid = false
+        }
+
+        if(cover.isBlank()){
+
+            binding.cover.error = getString(R.string.new_album_cover_required)
+            valid = false
+        }
+
+        if(releaseDate.isBlank()){
+
+            binding.releaseDate.error = getString(R.string.new_album_release_date_required)
+            valid = false
+        }
+
+        if(description.isBlank()){
+
+            binding.description.error = getString(R.string.new_album_description_required)
+            valid = false
+        }
+
+        if(genre == null){
+
+            binding.genre.error = getString(R.string.new_album_genre_required)
+            valid = false
+        }
+
+        if(recordLabel == null){
+
+            binding.recordLabel.error = getString(R.string.new_album_record_label_required)
+            valid = false
+        }
+
+        if(performer == null){
+
+            binding.performer.error = getString(R.string.new_album_performer_required)
+            valid = false
+        }
+        return valid
     }
 }

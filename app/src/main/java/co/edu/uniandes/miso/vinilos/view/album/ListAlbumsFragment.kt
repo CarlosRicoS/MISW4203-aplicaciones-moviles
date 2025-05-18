@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.uniandes.miso.vinilos.R
 import co.edu.uniandes.miso.vinilos.databinding.FragmentListAlbumsBinding
+import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
 import co.edu.uniandes.miso.vinilos.view.adapters.ListAlbumsAdapter
 import co.edu.uniandes.miso.vinilos.viewmodel.album.ListAlbumsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +26,7 @@ class ListAlbumsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val viewModel: ListAlbumsViewModel by viewModels()
     private var viewModelAdapter: ListAlbumsAdapter? = null
+    private lateinit var addNewAlbumButton: AppCompatButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +69,14 @@ class ListAlbumsFragment : Fragment() {
         }
 
         viewModel.loadAlbums()
+        addNewAlbumButton = view.findViewById(R.id.new_album)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val currentUser = VinylsDataStore.readLongProperty(requireContext(), "APP_USER_ID")
+        val visibility = if (currentUser > 0)  View.VISIBLE else View.GONE
+        addNewAlbumButton.visibility = visibility
     }
 
     override fun onDestroyView() {

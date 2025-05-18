@@ -38,4 +38,11 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="new_album_name_required">El nombre es requerido.</string>
+    <string name="new_album_cover_required">La URL de la portada es requerida.</string>
+    <string name="new_album_release_date_required">La fecha de lanzamiento es requerida.</string>
+    <string name="new_album_description_required">La descripción es requerida.</string>
+    <string name="new_album_genre_required">El género musical es requerido.</string>
+    <string name="new_album_record_label_required">El sello discográfico es requerido.</string>
+    <string name="new_album_performer_required">El artista/banda es requerido.</string>
 </resources>

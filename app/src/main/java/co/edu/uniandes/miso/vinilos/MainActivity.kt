@@ -152,7 +152,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDrawerItems(): List<DrawerItem> {
-        //TODO construir lista de opciones que solo puede acceder un coleccionista
         return listOf(
             DrawerItem.MenuItem(
                 R.id.albumsListFragment,
