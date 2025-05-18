@@ -6,4 +6,11 @@
         android:title=""
         android:orderInCategory="100"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/save_24dp"
+        android:title=""
+        android:orderInCategory="90"
+        app:showAsAction="always"
+        android:visible="false"/>
 </menu>

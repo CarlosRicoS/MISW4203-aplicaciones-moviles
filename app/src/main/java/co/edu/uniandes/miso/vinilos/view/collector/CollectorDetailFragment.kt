@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +56,6 @@ class CollectorDetailFragment : Fragment() {
         progressBar = binding.collectorDetailProgressBar
         
         val collectorId = arguments?.getInt("collectorId") ?: -1
-        Log.d("CollectorDetailFragment", "Collector ID: $collectorId")
         loadData(collectorId)
     }
 
