@@ -13,6 +13,15 @@
     <string name="album_detail_comments_spinner_placeholder">Calificación</string>
     <string name="album_detail_comments_textinput_placeholder">Comentario</string>
     <string name="album_detail_comments_add_button">AGREGAR</string>
+    <string name="album_add_new_button"> + Nuevo</string>
+    <string name="new_album_title">Nuevo Álbum</string>
+    <string name="new_album_name_placeholder">Nombre</string>
+    <string name="new_album_cover_placeholder">URL cover</string>
+    <string name="new_album_release_date_placeholder">Fecha de lanzamiento</string>
+    <string name="new_album_description_placeholder">Descripción</string>
+    <string name="new_album_genre_placeholder">Género</string>
+    <string name="new_album_release_record_label_placeholder">Sello discográfico</string>
+    <string name="new_album_release_performer_placeholder">Artista</string>
     <string name="unknown_performer">Artista desconocido</string>
     <string name="performer_type_band">Banda</string>
     <string name="performer_type_musician">Músico</string>

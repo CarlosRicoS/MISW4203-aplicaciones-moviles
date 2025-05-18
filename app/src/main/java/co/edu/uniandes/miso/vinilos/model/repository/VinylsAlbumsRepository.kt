@@ -177,7 +177,8 @@ class VinylsAlbumsRepository @Inject constructor(
     private suspend fun getAlbumsFromWebService(): List<AlbumDTO> {
 
         return withContext(Dispatchers.IO) {
-            vinylsApiService.getAlbums()
+            val albums = vinylsApiService.getAlbums()
+            albums
         }
     }
 

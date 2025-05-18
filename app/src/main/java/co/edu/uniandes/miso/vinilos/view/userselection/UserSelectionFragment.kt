@@ -1,7 +1,6 @@
 package co.edu.uniandes.miso.vinilos.view.userselection
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

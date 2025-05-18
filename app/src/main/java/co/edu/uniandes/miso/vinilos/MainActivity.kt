@@ -17,17 +17,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.edu.uniandes.miso.vinilos.databinding.ActivityMainBinding
-import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
 import co.edu.uniandes.miso.vinilos.view.DrawerItem
 import co.edu.uniandes.miso.vinilos.view.adapters.DrawerAdapter
+import co.edu.uniandes.miso.vinilos.view.interfaces.ToolbarActionHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private var isFilterVisible = true
+    private var isSaveVisible = false
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private var actionFilter: MenuItem? = null
+    private var actionSave: MenuItem? = null
     private var isSearchInputVisible = false
 
     private val topLevelDestinations = setOf(
@@ -35,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         R.id.collectorsListFragment,
         R.id.performerListFragment,
         R.id.userSelectionFragment
+    )
+
+    private val formDestinations = setOf(
+        R.id.new_album
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +60,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         actionFilter = menu.findItem(R.id.action_filter)
+        actionSave = menu.findItem(R.id.action_save)
         actionFilter?.contentDescription = getString(R.string.toolbar_search_text)
         val icon = actionFilter?.icon
         icon?.mutate()?.setTint(ContextCompat.getColor(this, R.color.iconTint))
         updateFilterVisibility()
+        updateSaveVisibility()
         return true
     }
 
@@ -66,9 +75,27 @@ class MainActivity : AppCompatActivity() {
                 toggleSearchBar()
                 true
             }
-
+            R.id.action_save -> {
+                val toolbarActionHandler = getCurrentToolbarActionHandler()
+                toolbarActionHandler?.onToolbarAction()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getCurrentToolbarActionHandler(): ToolbarActionHandler? {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        return navHostFragment
+            ?.childFragmentManager
+            ?.fragments
+            ?.firstOrNull { it.isVisible && it is ToolbarActionHandler } as? ToolbarActionHandler
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.action_filter)?.isVisible = isFilterVisible
+        menu?.findItem(R.id.action_save)?.isVisible = isSaveVisible
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun setupNavigation() {
@@ -85,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             clearSearchTextBox(EditorInfo.IME_ACTION_DONE)
             if (isSearchInputVisible) toggleSearchBar()
             updateFilterVisibility()
+            updateSaveVisibility()
         }
     }
 
@@ -118,8 +146,12 @@ class MainActivity : AppCompatActivity() {
             navController.currentDestination?.id in topLevelDestinations
     }
 
+    private fun updateSaveVisibility() {
+        actionSave?.isVisible =
+            navController.currentDestination?.id in formDestinations
+    }
+
     private fun getDrawerItems(): List<DrawerItem> {
-        // val currentUser = VinylsDataStore.readLongProperty(applicationContext, "APP_USER_ID")
         //TODO construir lista de opciones que solo puede acceder un coleccionista
         return listOf(
             DrawerItem.MenuItem(

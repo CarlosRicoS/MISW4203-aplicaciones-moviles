@@ -61,6 +61,10 @@ class ListAlbumsFragment : Fragment() {
             }
         }
 
+        binding.newAlbum.setOnClickListener {
+            findNavController().navigate(R.id.action_listAlbum_to_newAlbumForm)
+        }
+
         viewModel.loadAlbums()
     }
 
