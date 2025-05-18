@@ -44,7 +44,7 @@ class NewAlbumFormFragment : Fragment(), ToolbarActionHandler {
         setDatePickerControl()
         setUpObservers()
         loadData()
-        progressBar = binding.collectorDetailProgressBar
+        progressBar = binding.newAlbumProgressBar
         progressBar.visibility = View.VISIBLE
     }
 
