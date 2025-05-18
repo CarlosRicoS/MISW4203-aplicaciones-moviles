@@ -31,6 +31,7 @@
     <string name="user_selection_collector_fragment_title">Selecciona un coleccionista</string>
     <string name="collector_detail_performers_title">Artistas favoritos</string>
     <string name="collector_detail_collection_title">Colección</string>
+    <string name="new_album_save_button_text">Guardar Album</string>
     <string-array name="album_score_dropdown_options">
         <item>1</item>
         <item>2</item>

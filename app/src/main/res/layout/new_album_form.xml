@@ -1,148 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="16dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_name_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
+                android:contentDescription="@string/new_album_name_placeholder"
                 android:paddingStart="16dp"
+                android:paddingTop="17dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
-                android:hint="@string/new_album_name_placeholder" />
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_cover_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
+                android:contentDescription="@string/new_album_cover_placeholder"
                 android:paddingStart="16dp"
+                android:paddingTop="17dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
-                android:hint="@string/new_album_cover_placeholder" />
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_release_date_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/release_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="16sp"
+                android:contentDescription="@string/new_album_release_date_placeholder"
                 android:focusable="false"
                 android:inputType="none"
-                android:hint="@string/new_album_release_date_placeholder" />
+                android:paddingStart="16dp"
+                android:paddingTop="17dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_description_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/new_album_description_placeholder"
                 android:gravity="top|start"
-                android:lines="8"
                 android:inputType="textMultiLine"
-                android:minLines="8"
-                android:hint="@string/new_album_description_placeholder" />
+                android:lines="8"
+                android:minLines="8" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_genre_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
             app:endIconMode="dropdown_menu"
-            android:hint="@string/new_album_genre_placeholder">
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
+                android:contentDescription="@string/new_album_genre_placeholder"
+                android:inputType="none"
                 android:paddingStart="16dp"
+                android:paddingTop="17dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
-                android:inputType="none"/>
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_release_record_label_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
             app:endIconMode="dropdown_menu"
-            android:layout_marginBottom="18dp">
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/record_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
+                android:contentDescription="@string/new_album_release_record_label_placeholder"
                 android:paddingStart="16dp"
+                android:paddingTop="17dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
-                android:hint="@string/new_album_release_record_label_placeholder" />
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="18dp"
+            android:hint="@string/new_album_release_performer_placeholder"
+            android:textColorHint="@color/secondaryTextColor"
             app:endIconMode="dropdown_menu"
-            android:layout_marginBottom="18dp">
+            app:hintTextColor="@color/mainTextColor">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/performer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
+                android:contentDescription="@string/new_album_release_performer_placeholder"
                 android:paddingStart="16dp"
+                android:paddingTop="17dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
-                android:hint="@string/new_album_release_performer_placeholder" />
+                android:paddingBottom="17dp"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
-            android:id="@+id/collectorDetailProgressBar"
+            android:id="@+id/newAlbumProgressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

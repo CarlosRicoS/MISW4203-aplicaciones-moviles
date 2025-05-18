@@ -62,8 +62,9 @@ class MainActivity : AppCompatActivity() {
         actionFilter = menu.findItem(R.id.action_filter)
         actionSave = menu.findItem(R.id.action_save)
         actionFilter?.contentDescription = getString(R.string.toolbar_search_text)
-        val icon = actionFilter?.icon
-        icon?.mutate()?.setTint(ContextCompat.getColor(this, R.color.iconTint))
+        actionSave?.contentDescription = getString(R.string.new_album_save_button_text)
+        actionFilter?.icon?.mutate()?.setTint(ContextCompat.getColor(this, R.color.iconTint))
+        actionSave?.icon?.mutate()?.setTint(ContextCompat.getColor(this, R.color.iconTint))
         updateFilterVisibility()
         updateSaveVisibility()
         return true
