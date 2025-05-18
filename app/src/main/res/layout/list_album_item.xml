@@ -24,7 +24,7 @@
             android:id="@+id/album_cover"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:contentDescription=""
+            android:contentDescription="@null"
             android:scaleType="centerCrop"
             app:imageUrl="@{album.cover}" />
 

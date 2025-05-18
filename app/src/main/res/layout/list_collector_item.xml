@@ -17,12 +17,12 @@
         android:orientation="horizontal"
         android:padding="24dp">
 
-        <!-- Album cover image -->
+        <!-- Collector dummy image -->
         <ImageView
             android:id="@+id/collector_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:contentDescription=""
+            android:contentDescription="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/collector_icon"
             app:tint="@color/iconTint"/>
