@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <data>
+
         <variable
             name="album"
             type="co.edu.uniandes.miso.vinilos.model.domain.SimplifiedAlbum" />
     </data>
 
     <LinearLayout
-        android:layout_width="170dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:minWidth="170dp"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp"
-        android:gravity="center">
+        android:paddingVertical="8dp">
 
         <ImageView
             android:id="@+id/album_cover"
@@ -37,7 +39,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:text="@{album.name}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="14sp"
             android:textStyle="bold" />
 
