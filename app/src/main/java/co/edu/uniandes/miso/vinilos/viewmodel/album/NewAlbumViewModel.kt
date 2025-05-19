@@ -8,7 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.edu.uniandes.miso.vinilos.model.domain.NewAlbum
+import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
 import co.edu.uniandes.miso.vinilos.model.repository.VinylsAlbumsRepository
+import co.edu.uniandes.miso.vinilos.model.repository.VinylsPerformersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -17,9 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewAlbumViewModel @Inject constructor(
-    private val albumsRepository: VinylsAlbumsRepository
-): ViewModel() {
-    data class Option(val id: Int, val label: String)
+    private val albumsRepository: VinylsAlbumsRepository,
+    private val performerRepository: VinylsPerformersRepository
+) : ViewModel() {
+    data class Option(val id: String, val label: String)
+    data class PerformerOption(val id: String, val label: String, val type: String)
 
     private val _allowedGenres = MutableLiveData<List<Option>>()
     val allowedGenres: LiveData<List<Option>> = _allowedGenres
@@ -27,13 +32,14 @@ class NewAlbumViewModel @Inject constructor(
     private val _allowedRecordLabels = MutableLiveData<List<Option>>()
     val allowedRecordLabels: LiveData<List<Option>> = _allowedRecordLabels
 
-    private val _existingPerformers = MutableLiveData<List<Option>>()
-    val existingPerformers: LiveData<List<Option>> = _existingPerformers
+    private val _existingPerformers = MutableLiveData<List<PerformerOption>>()
+    val existingPerformers: LiveData<List<PerformerOption>> = _existingPerformers
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-    fun loadFormValues () {
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun loadFormValues() {
         viewModelScope.launch {
             try {
                 _allowedGenres.value = getGenres()
@@ -59,40 +65,52 @@ class NewAlbumViewModel @Inject constructor(
         return releaseDateIsoString.toString()
     }
 
-    //TODO: Obetener datos de la API o local storage
     private fun getRecordLabels(): List<Option> {
         return listOf(
-            Option(1, "Sony Music"),
-            Option(2, "Universal Music Group"),
-            Option(3, "Warner Music Group")
+            Option("SONY", "Sony Music"),
+            Option("EMI", "EMI"),
+            Option("FUENTES", "Discos Fuentes"),
+            Option("ELEKTRA", "Elektra"),
+            Option("FANIA", "Fania Records")
         )
-
     }
 
-    //TODO: Obetener datos de la API o local storage
     private fun getGenres(): List<Option> {
         return listOf(
-            Option(1, "Rock"),
-            Option(2, "Pop"),
-            Option(3, "Metal")
+            Option("CLASSICAL", "Classical"),
+            Option("SALSA", "Salsa"),
+            Option("ROCK", "Rock"),
+            Option("FOLK", "Folk")
         )
     }
 
-    //TODO: Obetener datos de la API o local storage
-    private fun getPerformers(): List<Option> {
-        return listOf(
-            Option(1, "Anonymous"),
-            Option(2, "John Doe"),
-            Option(3, "Jane Smith")
-        )
-    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private suspend fun getPerformers(): List<PerformerOption> {
 
-    // TODO: Conectar con el repositorio
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun saveNewAlbum(newAlbumValues: MutableMap<String, Any?>) {
-        if (newAlbumValues["releaseDate"].toString().isNullOrBlank()){
-            newAlbumValues["releaseDate"] = formatDate(newAlbumValues["releaseDate"].toString())
+        val performers = performerRepository.getSimplifiedPerformers()
+        return performers.map {
+            PerformerOption(
+                id = it.id.toString(),
+                label = it.name,
+                type = it.performerType!!.name
+            )
         }
-        return
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    suspend fun saveNewAlbum(newAlbumValues: MutableMap<String, Any?>) {
+
+        val newAlbum = NewAlbum(
+            name = newAlbumValues["name"].toString(),
+            cover = newAlbumValues["cover"].toString(),
+            performerId = (newAlbumValues["performer"] as Map<String, String>)["id"]!!.toInt(),
+            performerType = PerformerType.valueOf((newAlbumValues["performer"] as Map<String, String>)["type"].toString()),
+            releaseDate = formatDate(newAlbumValues["releaseDate"].toString()),
+            description = newAlbumValues["description"].toString(),
+            genre = newAlbumValues["genre"].toString(),
+            recordLabel = newAlbumValues["recordLabel"].toString(),
+        )
+
+        albumsRepository.createAlbum(newAlbum)
     }
 }
