@@ -60,5 +60,33 @@ class PerformerMapper {
                 albums = listOf()
             )
         }
+
+        fun fromSimplifiedPerformerToEntity(simplifiedPerformer: SimplifiedPerformer): Performer {
+
+            return Performer(
+                id = simplifiedPerformer.id,
+                name = simplifiedPerformer.name,
+                description = simplifiedPerformer.description,
+                image = simplifiedPerformer.image,
+                type = simplifiedPerformer.performerType!!.name
+            )
+        }
+
+        fun fromSimplifiedPerformerListToEntities(simplifiedPerformers: List<SimplifiedPerformer>): List<Performer> {
+            return simplifiedPerformers.map {
+                fromSimplifiedPerformerToEntity(it)
+            }
+        }
+
+        fun fromEntityToSimplifiedPerformer(entity: Performer): SimplifiedPerformer {
+
+            return SimplifiedPerformer(
+                id = entity.id,
+                name = entity.name,
+                image =  entity.image,
+                description = entity.description,
+                performerType = PerformerType.valueOf(entity.type!!)
+            )
+        }
     }
 }

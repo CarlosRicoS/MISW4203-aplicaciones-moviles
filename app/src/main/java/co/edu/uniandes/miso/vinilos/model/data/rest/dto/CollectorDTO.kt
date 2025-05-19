@@ -28,5 +28,6 @@ data class CollectorAlbumDTO(
 
     val id: Int,
     val price: Int,
-    val status: String
+    val status: String,
+    val album: AlbumDTO
 )

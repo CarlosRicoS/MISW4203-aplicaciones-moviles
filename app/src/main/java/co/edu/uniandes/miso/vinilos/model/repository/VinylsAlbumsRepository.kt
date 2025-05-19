@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CreateAlbumRequest
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.NetworkValidation
 import co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter.VinylsApiService
@@ -13,6 +14,7 @@ import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Album
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Track
+import co.edu.uniandes.miso.vinilos.model.domain.NewAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailAlbum
 import co.edu.uniandes.miso.vinilos.model.domain.DetailComment
 import co.edu.uniandes.miso.vinilos.model.domain.PerformerType
@@ -22,9 +24,9 @@ import co.edu.uniandes.miso.vinilos.model.mapper.AlbumMapper
 import co.edu.uniandes.miso.vinilos.model.mapper.CommentMapper
 import co.edu.uniandes.miso.vinilos.model.mapper.PerformerMapper
 import co.edu.uniandes.miso.vinilos.model.settings.VinylsDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import javax.inject.Inject
 
@@ -43,22 +45,25 @@ class VinylsAlbumsRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
 
             val dateInMillis = Date().time
-            val expirationDate = VinylsDataStore.readLongProperty(context, EXPIRATION_ALBUM_DATA_VALUE)
+            val expirationDate =
+                VinylsDataStore.readLongProperty(context, EXPIRATION_ALBUM_DATA_VALUE)
             val albumsToReturn: List<SimplifiedAlbum>
             if (dateInMillis < expirationDate) {
 
                 albumsToReturn = getSimplifiedAlbumsFromLocalStorage()
             } else {
 
-                if(NetworkValidation.isNetworkAvailable(context)) {
+                if (NetworkValidation.isNetworkAvailable(context)) {
 
                     val albumDTOs = getAlbumsFromWebService()
                     updateAlbumLocalStorage(albumDTOs)
-                    VinylsDataStore.writeLongProperty(context, EXPIRATION_ALBUM_DATA_VALUE, dateInMillis + (DELAY_IN_MILLIS))
+                    VinylsDataStore.writeLongProperty(
+                        context,
+                        EXPIRATION_ALBUM_DATA_VALUE,
+                        dateInMillis + (DELAY_IN_MILLIS)
+                    )
                     albumsToReturn = AlbumMapper.fromRestDtoListSimplifiedAlbums(albumDTOs)
-                }
-                else
-                {
+                } else {
                     albumsToReturn = getSimplifiedAlbumsFromLocalStorage()
                 }
             }
@@ -117,7 +122,8 @@ class VinylsAlbumsRepository @Inject constructor(
     private suspend fun getAlbumDTOById(id: Int): AlbumDTO {
         return withContext(Dispatchers.IO) {
             val dateInMillis = Date().time
-            val expirationDate = VinylsDataStore.readLongProperty(context, EXPIRATION_ALBUM_DATA_VALUE)
+            val expirationDate =
+                VinylsDataStore.readLongProperty(context, EXPIRATION_ALBUM_DATA_VALUE)
             val album: AlbumDTO
 
             if (dateInMillis < expirationDate) {
@@ -125,16 +131,42 @@ class VinylsAlbumsRepository @Inject constructor(
                 album = getDetailedAlbumByIdFromLocalStorage(id)
             } else {
 
-                if(NetworkValidation.isNetworkAvailable(context)) {
+                if (NetworkValidation.isNetworkAvailable(context)) {
 
                     album = vinylsApiService.getAlbumById(id)
-                }
-                else
-                {
+                } else {
                     album = getDetailedAlbumByIdFromLocalStorage(id)
                 }
             }
             album
+        }
+    }
+
+    suspend fun createAlbum(newAlbum: NewAlbum) {
+
+        withContext(Dispatchers.IO) {
+
+            val createAlbumRequest = CreateAlbumRequest(
+                name = newAlbum.name,
+                description = newAlbum.description,
+                recordLabel = newAlbum.recordLabel,
+                genre = newAlbum.genre,
+                releaseDate = newAlbum.releaseDate,
+                cover = newAlbum.cover
+            )
+            val createdAlbum = vinylsApiService.createAlbum(createAlbumRequest)
+
+            if (newAlbum.performerType == PerformerType.MUSICIAN) {
+
+                vinylsApiService.addMusicianToAlbum(createdAlbum.id, newAlbum.performerId)
+            } else {
+                vinylsApiService.addBandToAlbum(createdAlbum.id, newAlbum.performerId)
+            }
+            VinylsDataStore.writeLongProperty(
+                context,
+                EXPIRATION_ALBUM_DATA_VALUE,
+                -1
+            )
         }
     }
 
@@ -177,7 +209,8 @@ class VinylsAlbumsRepository @Inject constructor(
     private suspend fun getAlbumsFromWebService(): List<AlbumDTO> {
 
         return withContext(Dispatchers.IO) {
-            vinylsApiService.getAlbums()
+            val albums = vinylsApiService.getAlbums()
+            albums
         }
     }
 

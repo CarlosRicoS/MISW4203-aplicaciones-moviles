@@ -3,6 +3,7 @@
     <string name="albums_menu_title">Albumes</string>
     <string name="collectors_menu_title">Coleccionistas</string>
     <string name="performer_menu_title">Artistas</string>
+    <string name="user_selection_menu_title">Usuario</string>
     <string name="toolbar_search_text">Buscar</string>
     <string name="album_detail_general_tab">General</string>
     <string name="performer_detail_title">Artista</string>
@@ -12,7 +13,37 @@
     <string name="album_detail_comments_spinner_placeholder">Calificación</string>
     <string name="album_detail_comments_textinput_placeholder">Comentario</string>
     <string name="album_detail_comments_add_button">AGREGAR</string>
+    <string name="album_add_new_button"> + Nuevo</string>
+    <string name="new_album_title">Nuevo Álbum</string>
+    <string name="new_album_name_placeholder">Nombre</string>
+    <string name="new_album_cover_placeholder">URL cover</string>
+    <string name="new_album_release_date_placeholder">Fecha de lanzamiento</string>
+    <string name="new_album_description_placeholder">Descripción</string>
+    <string name="new_album_genre_placeholder">Género</string>
+    <string name="new_album_release_record_label_placeholder">Sello discográfico</string>
+    <string name="new_album_release_performer_placeholder">Artista</string>
     <string name="unknown_performer">Artista desconocido</string>
     <string name="performer_type_band">Banda</string>
     <string name="performer_type_musician">Músico</string>
+    <string name="regular_user">Usuario Regular</string>
+    <string name="collector">Coleccionista</string>
+    <string name="user_selection_fragment_title">Selección de usuario</string>
+    <string name="user_selection_collector_fragment_title">Selecciona un coleccionista</string>
+    <string name="collector_detail_performers_title">Artistas favoritos</string>
+    <string name="collector_detail_collection_title">Colección</string>
+    <string name="new_album_save_button_text">Guardar Album</string>
+    <string-array name="album_score_dropdown_options">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="new_album_name_required">El nombre es requerido.</string>
+    <string name="new_album_cover_required">La URL de la portada es requerida.</string>
+    <string name="new_album_release_date_required">La fecha de lanzamiento es requerida.</string>
+    <string name="new_album_description_required">La descripción es requerida.</string>
+    <string name="new_album_genre_required">El género musical es requerido.</string>
+    <string name="new_album_record_label_required">El sello discográfico es requerido.</string>
+    <string name="new_album_performer_required">El artista/banda es requerido.</string>
 </resources>

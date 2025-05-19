@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="comment"
             type="co.edu.uniandes.miso.vinilos.model.domain.DetailComment" />
@@ -13,14 +14,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/collector_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:id="@+id/collector_name"
+            android:text="@{comment.collector}"
+            android:textColor="@color/mainTextColor"
             android:textSize="20sp"
-            android:text="@{comment.collector}"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,24 +29,26 @@
             android:layout_marginBottom="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/comment_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textColor="@android:color/black"
-                android:id="@+id/comment_rating"
                 android:layout_gravity="top"
-                android:textSize="24sp"
-                android:text='@{String.valueOf(comment.rating)}'/>
+                android:layout_marginEnd="8dp"
+                android:text='@{String.valueOf(comment.rating)}'
+                android:textColor="@color/mainTextColor"
+                android:textSize="24sp" />
+
             <TextView
+                android:id="@+id/comment_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:lastBaselineToBottomHeight="0dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:id="@+id/comment_description"
-                android:textSize="16sp"
-                android:text="@{comment.description}"/>
+                android:text="@{comment.description}"
+                android:textColor="@color/mainTextColor"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 </layout>

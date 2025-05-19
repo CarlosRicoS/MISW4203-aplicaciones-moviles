@@ -9,6 +9,8 @@ import co.edu.uniandes.miso.vinilos.model.data.sqlite.dao.CollectorsDAO
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.dao.PerformerDAO
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Album
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Collector
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.CollectorAlbum
+import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.CollectorFavoritePerformer
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Performer
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Track
 import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
@@ -19,9 +21,11 @@ import co.edu.uniandes.miso.vinilos.model.data.sqlite.entity.Comment
         Collector::class,
         Track::class,
         Performer::class,
-        Comment::class
+        Comment::class,
+        CollectorFavoritePerformer::class,
+        CollectorAlbum::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class VinylRoomDatabase : RoomDatabase() {
@@ -43,7 +47,9 @@ abstract class VinylRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     VinylRoomDatabase::class.java,
                     databaseName
-                ).build()
+                )
+                .fallbackToDestructiveMigration()
+                .build()
                 INSTANCE = instance
                 instance
             }

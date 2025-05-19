@@ -9,19 +9,19 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="16dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
             android:text="@string/album_detail_comments_tab"
-            android:textSize="20sp"/>
+            android:textColor="@color/mainTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,34 +31,46 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:hint="@string/album_detail_comments_spinner_placeholder"
+                android:importantForAccessibility="no"
+                android:labelFor="@id/dropdown"
+                android:textColorHint="@color/secondaryTextColor"
+                app:endIconMode="dropdown_menu"
+                app:hintTextColor="@color/mainTextColor">
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                <AutoCompleteTextView
                     android:id="@+id/dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="17dp"
-                    android:paddingBottom="17dp"
+                    android:completionThreshold="1"
+                    android:contentDescription="@string/album_detail_comments_spinner_placeholder"
+                    android:cursorVisible="false"
+                    android:dropDownWidth="match_parent"
+                    android:dropDownHeight="wrap_content"
+                    android:dropDownVerticalOffset="4dp"
+                    android:inputType="none"
+                    android:minHeight="48dp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:textSize="16sp"
-                    android:hint="@string/album_detail_comments_spinner_placeholder" />
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                android:hint="@string/album_detail_comments_textinput_placeholder"
+                android:textColorHint="@color/secondaryTextColor"
+                app:hintTextColor="@color/mainTextColor">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|start"
-                    android:lines="5"
                     android:inputType="textMultiLine"
-                    android:minLines="3"
-                    android:hint="@string/album_detail_comments_textinput_placeholder" />
+                    android:lines="5"
+                    android:minLines="3" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -67,20 +79,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="30dp"
-                android:textSize="14sp"
                 android:text="@string/album_detail_comments_add_button"
+                android:textSize="14sp"
                 app:cornerRadius="4dp"
-                app:strokeWidth="1dp"
-                app:backgroundTint="@android:color/background_dark"
-                android:textColor="@android:color/white" />
+                app:strokeWidth="1dp" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/commentsRecyclerView"
-            tools:listitem="@layout/album_detail_comment_item"/>
+            tools:listitem="@layout/album_detail_comment_item" />
 
     </LinearLayout>
 </layout>

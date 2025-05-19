@@ -22,7 +22,8 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 android:paddingBottom="0dp"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:title="My App" />
@@ -45,8 +46,7 @@
                     app:boxCornerRadiusBottomEnd="24dp"
                     app:boxCornerRadiusBottomStart="24dp"
                     app:boxCornerRadiusTopEnd="24dp"
-                    app:boxCornerRadiusTopStart="24dp"
-                    app:startIconDrawable="@drawable/search_24dp">
+                    app:boxCornerRadiusTopStart="24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/search_input"
@@ -54,6 +54,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
                         android:inputType="text"
+                        android:minHeight="48dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +75,7 @@
     <!-- Navigation Drawer -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/drawerRecyclerView"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?android:attr/colorBackground"
