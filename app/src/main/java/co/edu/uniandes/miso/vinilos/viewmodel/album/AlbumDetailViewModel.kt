@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AlbumDetailViewModel @Inject constructor(
     private val albumsRepository: VinylsAlbumsRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _album = MutableLiveData<DetailAlbum>()
     val album: LiveData<DetailAlbum> = _album
@@ -49,6 +49,20 @@ class AlbumDetailViewModel @Inject constructor(
             } catch (e: Exception) {
                 _errorMessage.value = e.message ?: "Unknown error occurred"
                 _comments.value = emptyList()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun addComment(content: String, rating: Int, idCollector: Int) {
+
+        viewModelScope.launch {
+
+            try {
+                albumsRepository.addComment(album.value!!.id, content, rating, idCollector)
+                loadCommentDetail(album.value!!.id)
+            } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "Unknown error occurred"
             }
         }
     }

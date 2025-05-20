@@ -1,5 +1,7 @@
 package co.edu.uniandes.miso.vinilos.model.data.rest.serviceadapter
 
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AddCommentRequest
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AddCommentResponse
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CollectorAlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CollectorDTO
@@ -47,4 +49,7 @@ interface VinylsApiService {
 
     @GET("collectors/{id}/albums")
     suspend fun getCollectorAlbums(@Path("id") id: Int): List<CollectorAlbumDTO>
+
+    @POST("albums/{idAlbum}/comments")
+    suspend fun addCommentToAlbum(@Path("idAlbum") idAlbum: Int, @Body addCommentRequest: AddCommentRequest): AddCommentResponse
 }

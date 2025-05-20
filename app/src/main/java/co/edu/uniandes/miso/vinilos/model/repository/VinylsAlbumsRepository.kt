@@ -3,6 +3,8 @@ package co.edu.uniandes.miso.vinilos.model.repository
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CommentCollector
+import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AddCommentRequest
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.AlbumDTO
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.CreateAlbumRequest
 import co.edu.uniandes.miso.vinilos.model.data.rest.dto.PerformerDTO
@@ -167,6 +169,17 @@ class VinylsAlbumsRepository @Inject constructor(
                 EXPIRATION_ALBUM_DATA_VALUE,
                 -1
             )
+        }
+    }
+
+    suspend fun addComment(idAlbum: Int, content:String, rating: Int, idCollector:Int) {
+
+        withContext(Dispatchers.IO) {
+
+            val addCommentRequest = AddCommentRequest(content, rating, CommentCollector(idCollector))
+            val response = vinylsApiService.addCommentToAlbum(idAlbum, addCommentRequest)
+            val newComment = Comment(response.id, response.description, response.rating, idAlbum)
+            vinylsDatabase.albumsDao().insertComments(listOf(newComment))
         }
     }
 
