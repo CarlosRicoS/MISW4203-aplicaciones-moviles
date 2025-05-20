@@ -17,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
+            app:errorEnabled="true"
             android:hint="@string/new_album_name_placeholder"
+            app:boxBackgroundMode="outline"
             android:textColorHint="@color/secondaryTextColor"
             app:hintTextColor="@color/mainTextColor">
 
