@@ -44,6 +44,9 @@ interface VinylsApiService {
     @GET("collectors")
     suspend fun getCollectors(): List<CollectorDTO>
 
+    @GET("collectors/{id}")
+    suspend fun getCollectorById(@Path("id") id: Int): CollectorDTO
+
     @GET("collectors/{id}/performers")
     suspend fun getCollectorFavoritePerformers(@Path("id") id: Int): List<PerformerDTO>
 
