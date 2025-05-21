@@ -31,7 +31,8 @@
                 android:layout_marginTop="6dp"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{collector.photoUrl}" />
+                android:src="@drawable/collector_icon"
+                app:tint="@color/iconTint" />
 
             <TextView
                 android:id="@+id/name"
