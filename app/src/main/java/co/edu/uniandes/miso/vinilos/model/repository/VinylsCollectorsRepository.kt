@@ -73,13 +73,12 @@ class VinylsCollectorsRepository @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.M)
     suspend fun getDetailedCollectorById(collectorId: Int): DetailCollector {
-        val collector = getSimplifiedCollectors().filter { collector -> collector.id == collectorId }[0]
+        val collector = getCollectorDTOById(collectorId)
         return  DetailCollector (
             id = collectorId,
             name = collector.name,
             email = collector.email,
-            phone = "1234567",
-            photoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Ruben_Blades_by_Gage_Skidmore.jpg/800px-Ruben_Blades_by_Gage_Skidmore.jpg"
+            phone = collector.telephone
         )
     }
     
@@ -164,6 +163,35 @@ class VinylsCollectorsRepository @Inject constructor(
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private suspend fun getCollectorDTOById(id: Int): CollectorDTO {
+        return withContext(Dispatchers.IO) {
+            val dateInMillis = Date().time
+            val expirationDate =
+                VinylsDataStore.readLongProperty(context, EXPIRATION_COLLECTOR_DATA_VALUE)
+            val collector: CollectorDTO
+
+            if (dateInMillis < expirationDate) {
+
+                collector = getDetailedCollectorByIdFromLocalStorage(id)
+            } else {
+
+                if (NetworkValidation.isNetworkAvailable(context)) {
+
+                    collector = vinylsApiService.getCollectorById(id)
+                } else {
+                    collector = getDetailedCollectorByIdFromLocalStorage(id)
+                }
+            }
+            collector
+        }
+    }
+
+    private fun getDetailedCollectorByIdFromLocalStorage(id: Int): CollectorDTO {
+        val collector = vinylsDatabase.collectorsDao().getCollectorById(id)
+        return CollectorMapper.fromCollectorEntityToDTO(collector)
     }
     
     private fun getCollectorAlbumIdsFromLocalStorage(collectorId: Int): List<Int> {

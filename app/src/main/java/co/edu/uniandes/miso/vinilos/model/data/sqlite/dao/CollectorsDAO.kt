@@ -15,6 +15,9 @@ interface CollectorsDAO {
     @Query("SELECT * FROM collector")
     fun getCollectors(): List<Collector>
 
+    @Query("SELECT * FROM collector WHERE id = :collectorId")
+    fun getCollectorById(collectorId: Int): Collector
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(collectors: List<Collector>)
 

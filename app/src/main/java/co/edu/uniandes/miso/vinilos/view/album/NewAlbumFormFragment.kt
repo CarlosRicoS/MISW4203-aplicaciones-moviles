@@ -1,6 +1,5 @@
 package co.edu.uniandes.miso.vinilos.view.album
 
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +21,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -164,57 +164,96 @@ class NewAlbumFormFragment : Fragment(), ToolbarActionHandler {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isFormValid(): Boolean {
+        return (
+            isValidName() &&
+            isValidCover() &&
+            isValidReleaseDate() &&
+            isValidDescription() &&
+            isValidGenre() &&
+            isValidRecordLabel() &&
+            isValidPerformer()
+        )
+    }
 
-        var valid = true
-        val name = newAlbumResult["name"].toString()
-        val cover = newAlbumResult["cover"].toString()
-        val releaseDate = newAlbumResult["releaseDate"].toString()
-        val description = newAlbumResult["description"].toString()
-        val genre = newAlbumResult["genre"]
-        val recordLabel = newAlbumResult["recordLabel"]
-        val performer = newAlbumResult["performer"]
+    private fun isValidUrl(url: String): Boolean {
+        return Regex("^(https?|ftp)://[\\w.-]+(?:\\.[\\w\\.-]+)+[/\\w\\.-]*(?:\\?[^\\s]*)?\$").matches(url)
+    }
 
-        if(name.isBlank()){
-
-            binding.name.error = getString(R.string.new_album_name_required)
-            valid = false
+    private fun isValidField(condition: Boolean, binding: TextInputEditText, message: String): Boolean {
+        if (condition) {
+            binding.error = message
+            return false
         }
-
-        if(cover.isBlank()){
-
-            binding.cover.error = getString(R.string.new_album_cover_required)
-            valid = false
+        else {
+            binding.error = null
+            return true
         }
+    }
 
-        if(releaseDate.isBlank()){
-
-            binding.releaseDate.error = getString(R.string.new_album_release_date_required)
-            valid = false
+    private fun isValidField(condition: Boolean, binding: MaterialAutoCompleteTextView, message: String): Boolean {
+        if (condition) {
+            binding.error = message
+            return false
         }
-
-        if(description.isBlank()){
-
-            binding.description.error = getString(R.string.new_album_description_required)
-            valid = false
+        else {
+            binding.error = null
+            return true
         }
+    }
 
-        if(genre == null){
+    private fun isValidName(): Boolean {
+        return isValidField(
+            newAlbumResult["name"].toString().isBlank(),
+            binding.name,
+            getString(R.string.new_album_name_required)
+        )
+    }
 
-            binding.genre.error = getString(R.string.new_album_genre_required)
-            valid = false
-        }
+    private fun isValidCover(): Boolean {
+        return isValidField(
+            !isValidUrl(newAlbumResult["cover"].toString()),
+            binding.cover,
+            getString(R.string.new_album_cover_required)
+        )
+    }
 
-        if(recordLabel == null){
+    private fun isValidReleaseDate(): Boolean {
+        return isValidField(
+            newAlbumResult["releaseDate"].toString().isBlank(),
+            binding.releaseDate,
+            getString(R.string.new_album_release_date_required)
+        )
+    }
 
-            binding.recordLabel.error = getString(R.string.new_album_record_label_required)
-            valid = false
-        }
+    private fun isValidDescription(): Boolean {
+        return isValidField(
+            newAlbumResult["description"].toString().isBlank(),
+            binding.description,
+            getString(R.string.new_album_description_required)
+        )
+    }
 
-        if(performer == null){
+    private fun isValidGenre(): Boolean {
+        return isValidField(
+            newAlbumResult["genre"] == null,
+            binding.genre,
+            getString(R.string.new_album_genre_required)
+        )
+    }
 
-            binding.performer.error = getString(R.string.new_album_performer_required)
-            valid = false
-        }
-        return valid
+    private fun isValidRecordLabel(): Boolean {
+        return isValidField(
+            newAlbumResult["recordLabel"] == null,
+            binding.recordLabel,
+            getString(R.string.new_album_record_label_required)
+        )
+    }
+
+    private fun isValidPerformer(): Boolean {
+        return isValidField(
+            newAlbumResult["performer"] == null,
+            binding.performer,
+            getString(R.string.new_album_performer_required)
+        )
     }
 }
